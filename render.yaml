@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: edu-bridge-bot
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: bash start.sh
+    autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
