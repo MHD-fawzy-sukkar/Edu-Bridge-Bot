@@ -112,7 +112,7 @@ async def collect_user_data(message: Message):
 
     if "name" not in data:
         data["name"] = message.text
-        await message.answer("🔗 ما هو اسم المستخدم الخاص بك على تيليجرام؟")
+        await message.answer("🔗 ما هو اسم المستخدم الخاص بك على تيليغرام؟")
     elif "username" not in data:
         if not message.text.startswith("@") or len(message.text.strip()) <= 1:
             await message.answer(
@@ -146,7 +146,7 @@ async def collect_user_data(message: Message):
             await message.answer("✅ تم إرسال رسالتك بنجاح. شكراً لتواصلك معنا.")
         except Exception as e:
             await message.answer("❌ حدث خطأ أثناء إرسال الرسالة.")
-            print(f"❌ Error: {e}")
+            print(f"❌ Error sending message to group: {e}")
         user_data.pop(user_id, None)
 
 # === /stop ===
@@ -279,9 +279,8 @@ async def unban_user(message: Message):
 # === /replyto ===
 @dp.message(Command("replyto"))
 async def start_reply_command(message: Message):
-    args = message.text.split()
-    if len(args) != 2 or not args[1].isdigit():
-        await message.reply("❌ الصيغة: /replyto [user_id]")
+    if message.chat.type not in [ChatType.SUPERGROUP, ChatType.GROUP]:
+        await message.reply("❌ استخدم هذا الأمر داخل القروب.")
         return
 
     user_member = await bot.get_chat_member(message.chat.id, message.from_user.id)
@@ -289,9 +288,30 @@ async def start_reply_command(message: Message):
         await message.reply("❌ هذا الأمر للمشرفين فقط.")
         return
 
+    args = message.text.split()
+    if len(args) != 2 or not args[1].isdigit():
+        await message.reply("❌ الصيغة: /replyto [user_id]")
+        return
+
     target_id = int(args[1])
     admin_reply_sessions[message.from_user.id] = target_id
     await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_id}</code>.")
+
+# === رد مشرف بعد /replyto ===
+@dp.message(F.text, F.from_user.id.in_(admin_reply_sessions))
+async def handle_admin_reply(message: Message):
+    admin_id = message.from_user.id
+    target_user_id = admin_reply_sessions.pop(admin_id)
+    reply_text = (
+        f"{message.text}\n"
+        "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة، راسل المشرف @fawzys.</i>"
+    )
+    try:
+        await retry(lambda: bot.send_message(chat_id=target_user_id, text=reply_text))
+        await message.reply("✅ تم إرسال الرسالة بنجاح.")
+    except Exception as e:
+        await message.reply(f"❌ فشل إرسال الرسالة: {str(e)}")
+        print(f"❌ Error sending reply to user {target_user_id}: {e}")
 
 # === معالجة الرسائل بدون /start ===
 @dp.message(F.text, ~F.from_user.id.in_(user_data), ~F.text.startswith(("/start", "/stop", "/help", "/info", "/ban", "/unban", "/replyto")))
@@ -310,22 +330,6 @@ async def handle_no_start_message(message: Message):
             print(f"⚠️ فشل فحص حالة المشرف: {e}")
 
     await message.answer("⚠️ لم تبدأ عملية بعد! استخدم /start للبدء.")
-
-# === رد مشرف بعد /replyto ===
-@dp.message(F.text)
-async def handle_admin_reply(message: Message):
-    admin_id = message.from_user.id
-    if admin_id in admin_reply_sessions:
-        target_user_id = admin_reply_sessions.pop(admin_id)
-        reply_text = (
-            f"{message.text}\n"
-            "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة، راسل المشرف @fawzys.</i>"
-        )
-        try:
-            await retry(lambda: bot.send_message(chat_id=target_user_id, text=reply_text))
-            await message.reply("✅ تم إرسال الرسالة.")
-        except:
-            await message.reply("❌ لم أتمكن من إرسال الرسالة.")
 
 # === set commands ===
 async def set_commands(bot: Bot):
