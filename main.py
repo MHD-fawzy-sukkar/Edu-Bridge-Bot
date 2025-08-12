@@ -296,8 +296,19 @@ async def start_reply_command(message: Message):
 # === معالجة الرسائل بدون /start ===
 @dp.message(F.text, ~F.from_user.id.in_(user_data), ~F.text.startswith(("/start", "/stop", "/help", "/info", "/ban", "/unban", "/replyto")))
 async def handle_no_start_message(message: Message):
-    if message.from_user.id in banned_users:
+    user_id = message.from_user.id
+    if user_id in banned_users:
         return
+
+    # فحص إذا المستخدم مشرف في القروب
+    if message.chat.type in [ChatType.SUPERGROUP, ChatType.GROUP]:
+        try:
+            user_member = await bot.get_chat_member(message.chat.id, user_id)
+            if user_member.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
+                return  # لا ترد على المشرفين
+        except Exception as e:
+            print(f"⚠️ فشل فحص حالة المشرف: {e}")
+
     await message.answer("⚠️ لم تبدأ عملية بعد! استخدم /start للبدء.")
 
 # === رد مشرف بعد /replyto ===
