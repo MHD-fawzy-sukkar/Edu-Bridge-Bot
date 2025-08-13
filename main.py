@@ -8,8 +8,7 @@ from aiogram.types import Message, BotCommand, BotCommandScopeChatAdministrators
 from aiogram.enums import ChatMemberStatus
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiohttp.client_exceptions import ClientConnectorError
-
-TOKEN = "8251440358:AAGRc64aVPY-jgCmCs-uJyiudwaGguPMhr4"
+TOKEN = os.getenv("BOT_TOKEN")
 GROUP_ID = -1002555456158
 TOPIC_DONOR_ID = 2
 TOPIC_BENEFICIARY_ID = 3
