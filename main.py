@@ -7,12 +7,16 @@ from aiogram.filters import Command, CommandStart
 from aiogram.types import Message, BotCommand, BotCommandScopeChatAdministrators
 from aiogram.enums import ChatMemberStatus
 from aiogram.client.session.aiohttp import AiohttpSession
+from aiogram.exceptions import TelegramConflictError
 from aiohttp.client_exceptions import ClientConnectorError
+
+# إعداد المتغيرات
 TOKEN = os.getenv("BOT_TOKEN")
 GROUP_ID = -1002555456158
 TOPIC_DONOR_ID = 2
 TOPIC_BENEFICIARY_ID = 3
 TOPIC_STOP = 168
+ERRORS_TOPIC = 574  # توبيك لأخطاء الـ Logs
 BANNED_USERS_FILE = "banned_users.json"
 
 # إعداد البوت مع AiohttpSession
@@ -23,6 +27,17 @@ dp = Dispatcher()
 user_data = {}
 admin_reply_sessions = {}
 
+# دالة لإرسال تنبيهات الأخطاء إلى توبيك ERRORS_TOPIC
+async def notify_admin(error_message: str):
+    try:
+        await bot.send_message(
+            chat_id=GROUP_ID,
+            message_thread_id=ERRORS_TOPIC,
+            text=f"⚠️ خطأ في البوت:\n{error_message}"
+        )
+    except Exception as e:
+        print(f"❌ فشل إرسال تنبيه الخطأ: {e}")
+
 # دالة مساعدة لإعادة المحاولة
 async def retry(func, max_attempts=3, delay=0.5):
     last_exception = None
@@ -32,6 +47,7 @@ async def retry(func, max_attempts=3, delay=0.5):
         except ClientConnectorError as e:
             last_exception = e
             print(f"⚠️ محاولة {attempt + 1} فشلت: {e}")
+            await notify_admin(f"ClientConnectorError في المحاولة {attempt + 1}: {e}")
             if attempt < max_attempts - 1:
                 await asyncio.sleep(delay * (2 ** attempt))  # تأخير متزايد
     raise last_exception
@@ -71,6 +87,7 @@ async def start(message: Message):
     try:
         await retry(lambda: bot.send_message(chat_id=GROUP_ID, message_thread_id=TOPIC_STOP, text=start_msg))
     except Exception as e:
+        await notify_admin(f"فشل إرسال رسالة بدء التفاعل: {e}")
         print(f"⚠️ فشل إرسال رسالة بدء التفاعل: {e}")
 
     await message.answer(
@@ -154,7 +171,7 @@ async def cmd_stop(message: Message):
     user_id = message.from_user.id
     if user_id in user_data:
         user_data.pop(user_id)
-        await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام /start")
+        await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام \n/start")
     else:
         await message.answer("🛑 لا توجد عملية جارية. يمكنك البدء باستخدام /start")
 
@@ -326,6 +343,7 @@ async def handle_no_start_message(message: Message):
             if user_member.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
                 return  # لا ترد على المشرفين
         except Exception as e:
+            await notify_admin(f"فشل فحص حالة المشرف للمستخدم {user_id}: {e}")
             print(f"⚠️ فشل فحص حالة المشرف: {e}")
 
     await message.answer("⚠️ لم تبدأ عملية بعد! استخدم /start للبدء.")
@@ -352,8 +370,15 @@ async def set_commands(bot: Bot):
 async def main():
     print("✅ Bot is running...")
     try:
+        await bot.delete_webhook()  # إلغاء أي Webhook موجود
         await set_commands(bot)
         await dp.start_polling(bot)
+    except TelegramConflictError as e:
+        await notify_admin(f"TelegramConflictError عند بدء البوت: {e}")
+        raise
+    except Exception as e:
+        await notify_admin(f"خطأ عام عند بدء البوت: {e}")
+        raise
     finally:
         await bot.session.close()  # إغلاق الـ session بشكل صحيح
 
