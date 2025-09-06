@@ -16,7 +16,8 @@ GROUP_ID = -1002555456158
 TOPIC_DONOR_ID = 2
 TOPIC_BENEFICIARY_ID = 3
 TOPIC_STOP = 168
-ERRORS_TOPIC = 574  # توبيك لأخطاء الـ Logs
+ERRORS_TOPIC = 574  
+SUPPORT_TOPIC = 882  
 BANNED_USERS_FILE = "banned_users.json"
 
 # إعداد البوت مع AiohttpSession
@@ -100,22 +101,31 @@ async def start(message: Message):
     keyboard = types.ReplyKeyboardMarkup(
         keyboard=[
             [types.KeyboardButton(text="🤝 أنا متبرع")],
-            [types.KeyboardButton(text="📬 أنا مستفيد")]
+            [types.KeyboardButton(text="📬 أنا مستفيد")],
+            [types.KeyboardButton(text="📧 الدعم")]
         ],
         resize_keyboard=True
     )
     await message.answer("⬇️ الرجاء اختيار نوع المستخدم:", reply_markup=keyboard)
 
 # === اختيار نوع المستخدم ===
-@dp.message(F.text.in_(["📬 أنا مستفيد", "🤝 أنا متبرع"]))
+@dp.message(F.text.in_(["📬 أنا مستفيد", "🤝 أنا متبرع", "📧 الدعم"]))
 async def choose_user_type(message: Message):
     user_id = message.from_user.id
     if user_id in banned_users:
         return
+
     user_data[user_id] = {
-        "type": "donor" if "متبرع" in message.text else "beneficiary"
+        "type": "donor" if "متبرع" in message.text else "beneficiary" if "مستفيد" in message.text else "support"
     }
-    await message.answer("📝 ما اسمك الكامل؟", reply_markup=types.ReplyKeyboardRemove())
+
+    if user_data[user_id]["type"] == "support":
+        await message.answer(
+            "🔗 ما هو اسم المستخدم الخاص بك على تيليغرام؟ (مثال: @Username)",
+            reply_markup=types.ReplyKeyboardRemove()
+        )
+    else:
+        await message.answer("📝 ما اسمك الكامل؟", reply_markup=types.ReplyKeyboardRemove())
 
 # === جمع البيانات بالتسلسل مع فحص الأوامر ===
 @dp.message(F.from_user.id.in_(user_data), ~F.text.startswith(("/start", "/stop", "/help", "/info")))
@@ -126,44 +136,82 @@ async def collect_user_data(message: Message):
 
     data = user_data[user_id]
 
-    if "name" not in data:
-        data["name"] = message.text
-        await message.answer("🔗 ما هو اسم المستخدم الخاص بك على تيليغرام؟")
-    elif "username" not in data:
-        if not message.text.startswith("@") or len(message.text.strip()) <= 1:
+    if data["type"] in ["donor", "beneficiary"]:
+        if "name" not in data:
+            data["name"] = message.text
             await message.answer(
-                "❌ اسم المستخدم غير صالح، يجب أن يبدأ بـ @ ويحتوي على أحرف (مثال: @Username).\n"
-                "📝 <b>لإضافة اسم مستخدم في تيليغرام</b>:\n"
-                "1. افتح تيليغرام واضغط على القائمة (☰).\n"
-                "2. اذهب إلى 'الإعدادات' (Settings).\n"
-                "3. اضغط على 'اسم المستخدم' (Username) أو 'تعديل الملف الشخصي'.\n"
-                "4. أدخل اسم مستخدم يبدأ بـ '@' (مثال: @Username).\n"
-                "🔄 حاول مرة أخرى بعد إضافة اسم المستخدم."
+                "🔗 ما هو اسم المستخدم الخاص بك على تيليغرام؟ (مثال: @Username)"
             )
-            return
-        data["username"] = message.text.strip()
-        await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
-    elif "title" not in data:
-        data["title"] = message.text
-        await message.answer("✉️ الرجاء كتابة محتوى رسالتك بالتفصيل:")
-    elif "content" not in data:
-        data["content"] = message.text
-        topic_id = TOPIC_DONOR_ID if data["type"] == "donor" else TOPIC_BENEFICIARY_ID
-        final_msg = (
-            f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
-            f"📨 <b>رسالة جديدة من {'متبرع' if data['type'] == 'donor' else 'مستفيد'}</b>\n\n"
-            f"👤 <b>الاسم:</b> {data['name']}\n"
-            f"🔗 <b>Username:</b> {data['username']}\n"
-            f"📍 <b>العنوان:</b> {data['title']}\n"
-            f"✉️ <b>المحتوى:</b>\n{data['content']}"
-        )
-        try:
-            await retry(lambda: bot.send_message(GROUP_ID, final_msg, message_thread_id=topic_id))
-            await message.answer("✅ تم إرسال رسالتك بنجاح. شكراً لتواصلك معنا.")
-        except Exception as e:
-            await message.answer("❌ حدث خطأ أثناء إرسال الرسالة.")
-            print(f"❌ Error sending message to group: {e}")
-        user_data.pop(user_id, None)
+        elif "username" not in data:
+            if not message.text.startswith("@") or len(message.text.strip()) <= 1:
+                await message.answer(
+                    "❌ اسم المستخدم غير صالح، يجب أن يبدأ بـ @ ويحتوي على أحرف (مثال: @Username).\n"
+                    "📝 <b>لإضافة اسم مستخدم في تيليغرام</b>:\n"
+                    "1. افتح تيليغرام واضغط على القائمة (☰).\n"
+                    "2. اذهب إلى 'الإعدادات' (Settings).\n"
+                    "3. اضغط على 'اسم المستخدم' (Username) أو 'تعديل الملف الشخصي'.\n"
+                    "4. أدخل اسم مستخدم يبدأ بـ '@' (مثال: @Username).\n"
+                    "🔄 حاول مرة أخرى بعد إضافة اسم المستخدم."
+                )
+                return
+            data["username"] = message.text.strip()
+            await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
+        elif "title" not in data:
+            data["title"] = message.text
+            await message.answer("✉️ الرجاء كتابة محتوى رسالتك بالتفصيل:")
+        elif "content" not in data:
+            data["content"] = message.text
+            topic_id = TOPIC_DONOR_ID if data["type"] == "donor" else TOPIC_BENEFICIARY_ID
+            final_msg = (
+                f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
+                f"📨 <b>رسالة جديدة من {'متبرع' if data['type'] == 'donor' else 'مستفيد'}</b>\n\n"
+                f"👤 <b>الاسم:</b> {data['name']}\n"
+                f"🔗 <b>Username:</b> {data['username']}\n"
+                f"📍 <b>العنوان:</b> {data['title']}\n"
+                f"✉️ <b>المحتوى:</b>\n{data['content']}"
+            )
+            try:
+                await retry(lambda: bot.send_message(GROUP_ID, final_msg, message_thread_id=topic_id))
+                await message.answer("✅ تم إرسال رسالتك بنجاح. شكراً لتواصلك معنا.")
+            except Exception as e:
+                await message.answer(
+                    "❌ حدث خطأ أثناء إرسال الرسالة.\n"
+                    "📧 أرسل رسالة دعم باستخدام /start واختيار 'الدعم'."
+                )
+                print(f"❌ Error sending message to group: {e}")
+            user_data.pop(user_id, None)
+    elif data["type"] == "support":
+        if "username" not in data:
+            if not message.text.startswith("@") or len(message.text.strip()) <= 1:
+                await message.answer(
+                    "❌ اسم المستخدم غير صالح، يجب أن يبدأ بـ @ ويحتوي على أحرف (مثال: @Username).\n"
+                    "📝 <b>لإضافة اسم مستخدم في تيليغرام</b>:\n"
+                    "1. افتح تيليغرام واضغط على القائمة (☰).\n"
+                    "2. اذهب إلى 'الإعدادات' (Settings).\n"
+                    "3. اضغط على 'اسم المستخدم' (Username) أو 'تعديل الملف الشخصي'.\n"
+                    "4. أدخل اسم مستخدم يبدأ بـ '@' (مثال: @Username).\n"
+                    "🔄 حاول مرة أخرى بعد إضافة اسم المستخدم."
+                )
+                return
+            data["username"] = message.text.strip()
+            await message.answer("📧 اكتب رسالة الدعم:")
+        elif "content" not in data:
+            data["content"] = message.text
+            final_msg = (
+                f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
+                f"🔗 <b>Username:</b> {data['username']}\n"
+                f"📧 <b>رسالة الدعم:</b>\n{data['content']}"
+            )
+            try:
+                await retry(lambda: bot.send_message(GROUP_ID, final_msg, message_thread_id=SUPPORT_TOPIC))
+                await message.answer("✅ تم إرسال رسالة الدعم بنجاح. شكراً لتواصلك معنا.")
+            except Exception as e:
+                await message.answer(
+                    "❌ حدث خطأ أثناء إرسال الرسالة.\n"
+                    "📧 أرسل رسالة دعم باستخدام /start واختيار 'الدعم'."
+                )
+                print(f"❌ Error sending support message: {e}")
+            user_data.pop(user_id, None)
 
 # === /stop ===
 @dp.message(Command("stop"))
@@ -171,7 +219,7 @@ async def cmd_stop(message: Message):
     user_id = message.from_user.id
     if user_id in user_data:
         user_data.pop(user_id)
-        await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام \n/start")
+        await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام\n/start")
     else:
         await message.answer("🛑 لا توجد عملية جارية. يمكنك البدء باستخدام /start")
 
@@ -187,12 +235,12 @@ async def cmd_help(message: Message):
         "/help - عرض هذه التعليمات\n"
         "/info - شرح فكرة البوت وكيفية استخدامه بالتفصيل\n\n"
         "📌 <b>خطوات الاستخدام</b>:\n"
-        "1️⃣ استخدم /start لاختيار <b>متبرع</b> أو <b>مستفيد</b>.\n"
-        "2️⃣ أدخل معلوماتك (الاسم، اسم المستخدم، العنوان، المحتوى) بدقة.\n"
-        "3️⃣ تأكد أن اسم المستخدم المدخل يبدأ بـ @ وصحيح (مثال: @Username).\n\n"
-        "✍️ <b>نصيحة</b>: اكتب رسالتك بوضوح لنتمكن من ربطك بالشخص المناسب.\n"
-        "📚 اطلع على /info لفهم التفاصيل الكاملة.\n\n"
-        "📬 لأي استفسار، تواصل مع المشرف @fawzys."
+        "1️⃣ استخدم /start لاختيار <b>متبرع</b>، <b>مستفيد</b>، أو <b>الدعم</b>.\n"
+        "2️⃣ أدخل اسم المستخدم يدويًا (يبدأ بـ @).\n"
+        "3️⃣ أدخل معلوماتك (الاسم، العنوان، المحتوى) إذا كنت متبرعًا أو مستفيدًا.\n"
+        "4️⃣ للدعم، اكتب رسالتك مباشرة بعد إدخال اسم المستخدم.\n\n"
+        "✍️ <b>نصيحة</b>: اكتب رسالتك بوضوح لنتمكن من مساعدتك.\n"
+        "📧 لأي استفسار، أرسل رسالة دعم باستخدام /start واختيار 'الدعم'."
     )
     await message.answer(help_text)
 
@@ -202,36 +250,36 @@ async def cmd_info(message: Message):
     info_text = (
         "📚 <b>فكرة بوت Edu Bridge وكيفية استخدامه</b> 📚\n\n"
         "🎯 <b>الهدف:</b>\n"
-        "بوت خيري لتسهيل التبرع بـ (كتب، دفاتر، نوط، قرطاسية) للطلاب المحتاجين، وربط المتبرعين بالمستفيدين بطريقة منظمة.\n\n"
+        "بوت خيري لتسهيل التبرع بـ (كتب، دفاتر، نوط، قرطاسية) للطلاب المحتاجين، وربط المتبرعين بالمستفيدين بطريقة منظمة، مع إمكانية إرسال استفسارات الدعم.\n\n"
         "---\n"
         "<b>🛠️ كيف يعمل البوت؟</b>\n"
-        "البوت مقسم إلى قسمين: <b>متبرعين</b> و<b>مستفيدين</b>. إليك الخطوات:\n\n"
+        "البوت مقسم إلى ثلاثة أقسام: <b>متبرعين</b>، <b>مستفيدين</b>، و<b>الدعم</b>. إليك الخطوات:\n\n"
         "1️⃣ <b>ابدأ بالأمر /start</b>\n"
-        "اختر إذا كنت <b>متبرعًا</b> أو <b>مستفيدًا</b>.\n\n"
+        "اختر إذا كنت <b>متبرعًا</b>، <b>مستفيدًا</b>، أو تريد <b>الدعم</b>.\n\n"
         "2️⃣ <b>أدخل معلوماتك</b>\n"
-        "البوت سيسألك عن:\n"
-        "- الاسم الكامل\n"
-        "- اسم المستخدم على تيليغرام (يجب أن يبدأ بـ @)\n"
-        "- العنوان (مثال: دمشق - المزة)\n"
-        "⚠️ تأكد من إدخال اسم المستخدم بشكل صحيح لأنه سيُستخدم للتواصل.\n\n"
+        "- أدخل اسم المستخدم يدويًا (يبدأ بـ @).\n"
+        "- للمتبرعين والمستفيدين: أدخل الاسم الكامل، العنوان، ومحتوى الرسالة.\n"
+        "- للدعم: أدخل اسم المستخدم ثم رسالة الدعم.\n\n"
         "3️⃣ <b>اكتب محتوى رسالتك</b>\n"
-        "- <b>للمتبرعين</b>: اذكر تفاصيل التبرع (مثال: دفتر عربي للأستاذ رامي، بحالة جيدة، أو كتاب فيزياء مستخدم).\n"
-        "- <b>للمستفيدين</b>: اذكر ما تحتاجه بدقة (مثال: نوطة رياضيات للأستاذ محمد، أو كتاب كيمياء).\n"
-        "📝 <b>كن دقيقًا</b>: اذكر الحالة (جديد، مستخدم، مهترئ) وأي تفاصيل إضافية.\n\n"
-        "4️⃣ <b>الربط بين المتبرع والمستفيد</b>\n"
+        "- <b>للمتبرعين</b>: اذكر تفاصيل التبرع (مثال: دفتر عربي للأستاذ رامي، بحالة جيدة).\n"
+        "- <b>للمستفيدين</b>: اذكر ما تحتاجه بدقة (مثال: نوطة رياضيات للأستاذ محمد).\n"
+        "- <b>للدعم</b>: اكتب استفسارك أو مشكلتك بوضوح.\n"
+        "📝 <b>كن دقيقًا</b>: اذكر التفاصيل بوضوح لتسهيل الربط أو الرد.\n\n"
+        "4️⃣ <b>الربط أو الرد</b>\n"
         "- <b>للمتبرعين</b>: سنرسل لك معرف المستفيد المناسب عند توفر طلب مطابق.\n"
         "- <b>للمستفيدين</b>: انتظر حتى نجد متبرعًا قريبًا منك.\n"
-        "📬 سنتولى عملية الربط، وسنتواصل معك عبر البوت.\n\n"
+        "- <b>للدعم</b>: سنرد عليك عبر البوت.\n"
+        "📬 سنتولى عملية الربط أو الرد، تواصل معنا عبر البوت.\n\n"
         "---\n"
         "<b>📋 ملاحظات هامة لضمان نجاح العملية</b>\n"
         "- <b>للمتبرعين</b>:\n"
         "  - لا تتبرع بمواد تالفة جدًا أو ناقصة، تأكد أن تكون مفيدة فعلاً.\n"
-        "  - إذا كان المصدر (دفتر أو نوطة) بجودة عالية، قم بتحويله إلى PDF قبل التبرع لتعم الفائدة.\n"
+        "  - إذا كان المصدر (دفتر أو نوطة) بجودة عالية، قم بتحويله إلى PDF قبل التبرع.\n"
         "- <b>للجميع</b>:\n"
-        "  - أدخل المعلومات بدقة وكاملة.\n"
+        "  - أدخل اسم المستخدم يدويًا وبدقة (يبدأ بـ @).\n"
         "  - اكتب رسالة المحتوى دفعة واحدة مع كل التفاصيل.\n"
         "  - إذا تلقيت معرف مستخدم، تواصل معه مباشرة، ولا ترد على البوت.\n"
-        "  - إذا واجهت أي مشكلة، تواصل مع المشرف @fawzys.\n\n"
+        "  - لأي استفسار، أرسل رسالة دعم باستخدام /start واختيار 'الدعم'.\n\n"
         "---\n"
         "<b>⚠️ تنبيه هام</b>\n"
         "هذا بوت خيري يهدف لخدمة المجتمع. يُرجى استخدامه بمسؤولية:\n"
@@ -243,7 +291,7 @@ async def cmd_info(message: Message):
     await message.answer(info_text)
 
 # === /ban ===
-@dp.message(Command("ban"))
+@dp.message(F.text.regexp(r'^/ban\s+\d+$'))
 async def ban_user(message: Message):
     if message.chat.type not in [ChatType.SUPERGROUP, ChatType.GROUP]:
         await message.reply("❌ استخدم هذا الأمر داخل القروب.")
@@ -255,10 +303,6 @@ async def ban_user(message: Message):
         return
 
     args = message.text.split()
-    if len(args) != 2 or not args[1].isdigit():
-        await message.reply("❌ الصيغة: /ban [user_id]")
-        return
-
     user_to_ban = int(args[1])
     if user_to_ban in banned_users:
         await message.reply(f"⚠️ المستخدم <code>{user_to_ban}</code> محظور بالفعل.")
@@ -268,7 +312,7 @@ async def ban_user(message: Message):
     await message.reply(f"🚫 تم حظر المستخدم <code>{user_to_ban}</code> من استخدام البوت.")
 
 # === /unban ===
-@dp.message(Command("unban"))
+@dp.message(F.text.regexp(r'^/unban\s+\d+$'))
 async def unban_user(message: Message):
     if message.chat.type not in [ChatType.SUPERGROUP, ChatType.GROUP]:
         await message.reply("❌ استخدم هذا الأمر داخل القروب.")
@@ -280,10 +324,6 @@ async def unban_user(message: Message):
         return
 
     args = message.text.split()
-    if len(args) != 2 or not args[1].isdigit():
-        await message.reply("❌ الصيغة: /unban [user_id]")
-        return
-
     user_to_unban = int(args[1])
     if user_to_unban not in banned_users:
         await message.reply(f"⚠️ المستخدم <code>{user_to_unban}</code> غير محظور.")
@@ -305,19 +345,32 @@ async def start_reply_command(message: Message):
         return
 
     args = message.text.split()
-    if len(args) != 2 or not args[1].isdigit():
-        await message.reply("❌ الصيغة: /replyto [user_id]")
-        return
-
-    target_id = int(args[1])
-    admin_reply_sessions[message.from_user.id] = target_id
-    await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_id}</code>.")
+    if len(args) < 2:
+        await message.reply("❓ الرجاء إدخال معرف المستخدم (User ID) للرد عليه:")
+        admin_reply_sessions[message.from_user.id] = None
+    else:
+        try:
+            target_id = int(args[1])
+            admin_reply_sessions[message.from_user.id] = target_id
+            await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_id}</code>.")
+        except ValueError:
+            await message.reply("❌ الرجاء إدخال معرف مستخدم صالح (رقم فقط).")
 
 # === رد مشرف بعد /replyto ===
 @dp.message(F.text, F.from_user.id.in_(admin_reply_sessions))
 async def handle_admin_reply(message: Message):
     admin_id = message.from_user.id
-    target_user_id = admin_reply_sessions.pop(admin_id)
+    target_user_id = admin_reply_sessions[admin_id]
+
+    if target_user_id is None:
+        if not message.text.isdigit():
+            await message.reply("❌ الرجاء إدخال معرف مستخدم صالح (رقم فقط).")
+            return
+        target_user_id = int(message.text)
+        admin_reply_sessions[admin_id] = target_user_id
+        await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_user_id}</code>.")
+        return
+
     reply_text = (
         f"{message.text}\n"
         "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة، راسل المشرف @fawzys.</i>"
@@ -328,9 +381,16 @@ async def handle_admin_reply(message: Message):
     except Exception as e:
         await message.reply(f"❌ فشل إرسال الرسالة: {str(e)}")
         print(f"❌ Error sending reply to user {target_user_id}: {e}")
+    admin_reply_sessions.pop(admin_id, None)
+
+# === معالجة الأوامر الناقصة (/ban, /unban) ===
+@dp.message(F.text.regexp(r'^/(ban|unban)(\s+.*)?$'))
+async def handle_incomplete_command(message: Message):
+    command = message.text.split()[0]
+    await message.reply(f"❌ الصيغة: {command} [user_id]")
 
 # === معالجة الرسائل بدون /start ===
-@dp.message(F.text, ~F.from_user.id.in_(user_data), ~F.text.startswith(("/start", "/stop", "/help", "/info", "/ban", "/unban", "/replyto")))
+@dp.message(F.text, ~F.from_user.id.in_(user_data), ~F.text.startswith(("/start", "/stop", "/help", "/info")))
 async def handle_no_start_message(message: Message):
     user_id = message.from_user.id
     if user_id in banned_users:
