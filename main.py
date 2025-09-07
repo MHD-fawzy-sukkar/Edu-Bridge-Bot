@@ -194,7 +194,7 @@ async def collect_user_data(message: Message):
                 )
                 return
             data["username"] = message.text.strip()
-            await message.answer("📧 اكتب رسالة الدعم:")
+            await message.answer("📧 اكتب رسالتك:")
         elif "content" not in data:
             data["content"] = message.text
             final_msg = (
@@ -204,7 +204,7 @@ async def collect_user_data(message: Message):
             )
             try:
                 await retry(lambda: bot.send_message(GROUP_ID, final_msg, message_thread_id=SUPPORT_TOPIC))
-                await message.answer("✅ تم إرسال رسالة الدعم بنجاح. شكراً لتواصلك معنا.")
+                await message.answer("✅ تم إرسال الرسالة بنجاح. شكراً لتواصلك معنا.")
             except Exception as e:
                 await message.answer(
                     "❌ حدث خطأ أثناء إرسال الرسالة.\n"
@@ -374,7 +374,7 @@ async def handle_admin_reply(message: Message):
 
     reply_text = (
         f"{message.text}\n"
-        "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم"
+        "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم</i>"
     )
     try:
         await retry(lambda: bot.send_message(chat_id=target_user_id, text=reply_text))
