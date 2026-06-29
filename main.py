@@ -155,8 +155,8 @@ async def collect_user_data(message: Message):
                     "4. أضف اسم مستخدم ثم أرسل /start من جديد."
                 )
                 return
-                data["username"] = f"@{username}"
-                await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
+            data["username"] = f"@{username}"
+            await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
         elif "title" not in data:
             data["title"] = message.text
             await message.answer("✉️ الرجاء كتابة محتوى رسالتك بالتفصيل:")
