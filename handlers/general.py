@@ -1,16 +1,29 @@
 import logging
 from aiogram import Router, F, types
-from aiogram.filters import Command
+from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.enums import ChatType, ChatMemberStatus
-from keyboards import get_cancel_keyboard
+from keyboards import get_cancel_keyboard, get_main_keyboard
 
 from services.banned import banned_users
 
 router = Router()
 
+@router.message(F.text == "❌ إلغاء", StateFilter("*"))
+async def cancel_process(message: types.Message, state: FSMContext):
+    current_state = await state.get_state()
+    if current_state is None:
+        await message.answer("🛑 لا توجد عملية جارية لإلغائها.", reply_markup=get_main_keyboard())
+        return
+
+    await state.clear()
+    await message.answer(
+        "🛑 تم إلغاء العملية الحالية. يمكنك البدء من جديد متى شئت.",
+        reply_markup=get_main_keyboard()
+    )
+
 # --- Stop Command ---
-@router.message(Command("stop"))
+@router.message(Command("stop"), StateFilter("*"))
 async def cmd_stop(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is None:
@@ -21,17 +34,17 @@ async def cmd_stop(message: types.Message, state: FSMContext):
     await state.clear()
     await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام\n/start")
 
-# --- Cancel Command ---
-@router.message(F.text == "❌ إلغاء")
-async def cancel_process(message: types.Message, state: FSMContext):
-    await state.clear()
-    await message.answer(
-        "🛑 تم إلغاء العملية الحالية. يمكنك البدء من جديد متى شئت.",
-        reply_markup=get_cancel_keyboard()
-    )
+# # --- Cancel Command ---
+# @router.message(F.text == "❌ إلغاء")
+# async def cancel_process(message: types.Message, state: FSMContext):
+#     await state.clear()
+#     await message.answer(
+#         "🛑 تم إلغاء العملية الحالية. يمكنك البدء من جديد متى شئت.",
+#         reply_markup=get_cancel_keyboard()
+#     )
 
 # --- Help Command ---
-@router.message(Command("help"))
+@router.message(Command("help"), StateFilter("*"))
 async def cmd_help(message: types.Message):
     help_text = (
         "📘 <b>دليل استخدام بوت Edu Bridge</b>\n\n"
@@ -51,7 +64,7 @@ async def cmd_help(message: types.Message):
     await message.answer(help_text)
 
 # --- Info Command ---
-@router.message(Command("info"))
+@router.message(Command("info"), StateFilter("*"))
 async def cmd_info(message: types.Message):
     info_text = (
         "📚 <b>فكرة بوت Edu Bridge وكيفية استخدامه</b> 📚\n\n"
@@ -94,7 +107,8 @@ async def cmd_info(message: types.Message):
     await message.answer(info_text)
 
 # --- Fallback Handler (No Start) ---
-@router.message(F.text, ~F.text.startswith("/"))
+# أضفنا StateFilter(None) هنا
+@router.message(F.text, ~F.text.startswith("/"), StateFilter(None))
 async def handle_no_start_message(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     if user_id in banned_users:
@@ -109,7 +123,5 @@ async def handle_no_start_message(message: types.Message, state: FSMContext):
         except Exception as e:
             logging.error(f"Failed to check admin status: {e}")
 
-    # Check if the user is in an active FSM state
-    current_state = await state.get_state()
-    if current_state is None:
-        await message.answer("⚠️ لم تبدأ عملية بعد! استخدم /start للبدء.")
+    # بما أننا استخدمنا StateFilter(None) فوق، ما عاد في داعي لفحص current_state هنا
+    await message.answer("⚠️ لم تبدأ عملية بعد! استخدم /start للبدء.")

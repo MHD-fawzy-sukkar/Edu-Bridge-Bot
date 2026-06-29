@@ -19,9 +19,9 @@ async def process_name(message: types.Message, state: FSMContext):
 
     # Save name and move to address state
     await state.update_data(name=message.text)
-    await state.set_state(RequestForm.waiting_for_address)
-    await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)", reply_markup=get_cancel_keyboard())
-
+    await state.set_state(RequestForm.waiting_for_governorate)
+    await message.answer("📍 الرجاء اختيار محافظتك من القائمة أدناه:", reply_markup=get_governorates_keyboard())
+    
 @router.message(RequestForm.waiting_for_governorate)
 async def process_governorate(message: types.Message, state: FSMContext):
     # Validation: Ensure the user selected a valid Syrian governorate (Optional but recommended)
@@ -38,6 +38,7 @@ async def process_governorate(message: types.Message, state: FSMContext):
     await state.update_data(governorate=message.text)
     await state.set_state(RequestForm.waiting_for_address)
     await message.answer("🏠 أين بالضبط؟ (مثال: المزة - جانب جامع الأكرم)", reply_markup=get_cancel_keyboard())
+
 @router.message(RequestForm.waiting_for_address)
 async def process_address(message: types.Message, state: FSMContext):
     # Validation: Ensure address is not too short

@@ -1,16 +1,15 @@
 import logging
 from aiogram import Router, F, types
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 
-from keyboards import get_main_keyboard
+from keyboards import get_main_keyboard, get_cancel_keyboard
 from states import RequestForm, SupportForm
 from services.banned import banned_users
 from config import GROUP_ID, STOP_TOPIC
 
 router = Router()
-
-@router.message(CommandStart())
+@router.message(CommandStart(), StateFilter("*"))
 async def cmd_start(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     if user_id in banned_users:
@@ -66,7 +65,7 @@ async def choose_request_type(message: types.Message, state: FSMContext):
     
     # Move to the first step of the form
     await state.set_state(RequestForm.waiting_for_name)
-    await message.answer("📝 ما اسمك الكامل؟", reply_markup=types.ReplyKeyboardRemove())
+    await message.answer("📝 ما اسمك الكامل؟", reply_markup=get_cancel_keyboard())
 
 # Handle Support Option
 @router.message(F.text == "📧 الدعم")
@@ -87,4 +86,4 @@ async def choose_support_type(message: types.Message, state: FSMContext):
     # Store support data and move to content state
     await state.update_data(username=f"@{username}", telegram_name=message.from_user.full_name)
     await state.set_state(SupportForm.waiting_for_content)
-    await message.answer("📧 اكتب رسالتك:", reply_markup=types.ReplyKeyboardRemove())
+    await message.answer("📧 اكتب رسالتك:", reply_markup=get_cancel_keyboard())
