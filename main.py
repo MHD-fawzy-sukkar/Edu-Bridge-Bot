@@ -139,23 +139,24 @@ async def collect_user_data(message: Message):
     if data["type"] in ["donor", "beneficiary"]:
         if "name" not in data:
             data["name"] = message.text
-            await message.answer(
-                "🔗 ما هو اسم المستخدم الخاص بك على تيليغرام؟ (مثال: @Username)"
-            )
-        elif "username" not in data:
-            if not message.text.startswith("@") or len(message.text.strip()) <= 1:
+            data["telegram_name"] = message.from_user.full_name
+
+            username = message.from_user.username
+
+            if username is None:
+                user_data.pop(user_id, None)
                 await message.answer(
-                    "❌ اسم المستخدم غير صالح، يجب أن يبدأ بـ @ ويحتوي على أحرف (مثال: @Username).\n"
-                    "📝 <b>لإضافة اسم مستخدم في تيليغرام</b>:\n"
-                    "1. افتح تيليغرام واضغط على القائمة (☰).\n"
-                    "2. اذهب إلى 'الإعدادات' (Settings).\n"
-                    "3. اضغط على 'اسم المستخدم' (Username) أو 'تعديل الملف الشخصي'.\n"
-                    "4. أدخل اسم مستخدم يبدأ بـ '@' (مثال: @Username).\n"
-                    "🔄 حاول مرة أخرى بعد إضافة اسم المستخدم."
+                    "❌ لا يوجد اسم مستخدم (Username) على حسابك.\n\n"
+                    "لا يمكن متابعة الطلب بدون اسم مستخدم، لأننا نستخدمه لربط المتبرعين بالمستفيدين.\n\n"
+                    "لإضافة اسم مستخدم:\n"
+                    "1. افتح تيليغرام.\n"
+                    "2. ادخل إلى Settings.\n"
+                    "3. اختر Username.\n"
+                    "4. أضف اسم مستخدم ثم أرسل /start من جديد."
                 )
                 return
-            data["username"] = message.text.strip()
-            await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
+                data["username"] = f"@{username}"
+                await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)")
         elif "title" not in data:
             data["title"] = message.text
             await message.answer("✉️ الرجاء كتابة محتوى رسالتك بالتفصيل:")
@@ -165,7 +166,8 @@ async def collect_user_data(message: Message):
             final_msg = (
                 f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
                 f"📨 <b>رسالة جديدة من {'متبرع' if data['type'] == 'donor' else 'مستفيد'}</b>\n\n"
-                f"👤 <b>الاسم:</b> {data['name']}\n"
+                f"👤 <b>الاسم الذي أدخله:</b> {data['name']}\n"
+                f"📱 <b>اسم الحساب:</b> {data['telegram_name']}\n"
                 f"🔗 <b>Username:</b> {data['username']}\n"
                 f"📍 <b>العنوان:</b> {data['title']}\n"
                 f"✉️ <b>المحتوى:</b>\n{data['content']}"
@@ -182,23 +184,25 @@ async def collect_user_data(message: Message):
             user_data.pop(user_id, None)
     elif data["type"] == "support":
         if "username" not in data:
-            if not message.text.startswith("@") or len(message.text.strip()) <= 1:
+            data["telegram_name"] = message.from_user.full_name
+
+            username = message.from_user.username
+
+            if username is None:
+                user_data.pop(user_id, None)
                 await message.answer(
-                    "❌ اسم المستخدم غير صالح، يجب أن يبدأ بـ @ ويحتوي على أحرف (مثال: @Username).\n"
-                    "📝 <b>لإضافة اسم مستخدم في تيليغرام</b>:\n"
-                    "1. افتح تيليغرام واضغط على القائمة (☰).\n"
-                    "2. اذهب إلى 'الإعدادات' (Settings).\n"
-                    "3. اضغط على 'اسم المستخدم' (Username) أو 'تعديل الملف الشخصي'.\n"
-                    "4. أدخل اسم مستخدم يبدأ بـ '@' (مثال: @Username).\n"
-                    "🔄 حاول مرة أخرى بعد إضافة اسم المستخدم."
+                    "❌ لا يوجد اسم مستخدم (Username) على حسابك.\n\n"
+                    "يرجى إضافة Username من إعدادات تيليغرام ثم إعادة المحاولة باستخدام /start."
                 )
                 return
-            data["username"] = message.text.strip()
+
+            data["username"] = f"@{username}"
             await message.answer("📧 اكتب رسالتك:")
         elif "content" not in data:
             data["content"] = message.text
             final_msg = (
                 f"🆔 <b>User ID:</b> <code>{user_id}</code>\n"
+                f"📱 <b>اسم الحساب:</b> {data['telegram_name']}\n"
                 f"🔗 <b>Username:</b> {data['username']}\n"
                 f"📧 <b>رسالة الدعم:</b>\n{data['content']}"
             )
