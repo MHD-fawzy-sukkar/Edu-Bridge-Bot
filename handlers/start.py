@@ -21,7 +21,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
     start_msg = (
         f"✅ المستخدم <b>{message.from_user.full_name}</b> "
         f"(@{message.from_user.username or '❌ لا يوجد'})\n"
-        f"ID: <code>{user_id}</code>\n"
+        f"User ID: <code>{user_id}</code>\n"
         "بدأ تفاعل جديد مع البوت."
     )
     try:

@@ -50,10 +50,10 @@ async def main():
 
     # Register all routers (The order doesn't matter much, but it's good to be organized)
     dp.include_router(start.router)
+    dp.include_router(admin.router)
     dp.include_router(general.router) 
     dp.include_router(request.router)
     dp.include_router(support.router)
-    dp.include_router(admin.router)
 
     try:
         # Drop any pending updates before starting to avoid spam from when the bot was offline

@@ -1,7 +1,7 @@
 import re
 import logging
 from aiogram import Router, F, types
-from aiogram.filters import Command
+from aiogram.filters import Command, StateFilter
 from aiogram.enums import ChatType, ChatMemberStatus
 from aiogram.fsm.context import FSMContext
 
@@ -17,39 +17,36 @@ async def is_admin(message: types.Message) -> bool:
         await message.reply("❌ استخدم هذا الأمر داخل القروب.")
         return False
 
-    user_member = await message.bot.get_chat_member(message.chat.id, message.from_user.id)
-    if user_member.status not in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
-        await message.reply("❌ هذا الأمر للمشرفين فقط.")
+    try:
+        user_member = await message.bot.get_chat_member(message.chat.id, message.from_user.id)
+        if user_member.status not in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
+            await message.reply("❌ هذا الأمر للمشرفين فقط.")
+            return False
+        return True
+    except Exception as e:
+        logging.error(f"Failed to check admin status: {e}")
         return False
-    
-    return True
 
 # --- Direct Reply via Swipe ---
-@router.message(F.chat.id == GROUP_ID, F.reply_to_message, F.text)
+# التعديل هنا: StateFilter(None) لمنع التصادم مع أوامر الـ FSM
+@router.message(F.chat.id == GROUP_ID, F.reply_to_message, F.text, ~F.text.startswith('/'), StateFilter(None))
 async def direct_admin_reply(message: types.Message):
-    # لا نرد إذا كان المشرف يكتب أمراً مثل /ban
-    if message.text.startswith('/'):
-        return
-
-    # التحقق من أن من قام بالرد هو مشرف فعلاً
     if not await is_admin(message): 
         return
 
-    # جلب نص الرسالة التي قام المشرف بالرد عليها
     original_text = message.reply_to_message.text or message.reply_to_message.caption
     if not original_text:
         return
 
-    # استخراج الـ User ID من الرسالة الأصلية باستخدام Regex
     match = re.search(r'User ID:\s*(\d+)', original_text)
     if not match:
-        # إذا لم يجد ID (بمعنى أن المشرف رد على رسالة عادية بالجروب)، يتجاهلها البوت بصمت
+        # التعديل هنا: تم إزالة رسالة الخطأ المزعجة. البوت سيتجاهل الرسالة بصمت إذا كانت دردشة عادية بين المشرفين.
         return
 
     target_user_id = int(match.group(1))
 
     reply_text = (
-        f"{message.text}\n"
+        f"{message.text}\n------------------------------------------------------------\n"
         "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم</i>"
     )
     
@@ -61,11 +58,16 @@ async def direct_admin_reply(message: types.Message):
         logging.error(f"Error sending reply to user {target_user_id}: {e}")
 
 # --- Ban User ---
-@router.message(F.text.regexp(r'^/ban\s+\d+$'))
+@router.message(Command("ban"), StateFilter("*"))
 async def ban_user(message: types.Message):
     if not await is_admin(message): return
 
-    user_to_ban = int(message.text.split()[1])
+    args = message.text.split()
+    if len(args) < 2 or not args[1].isdigit():
+        await message.reply("❌ الصيغة الصحيحة: /ban [user_id]")
+        return
+
+    user_to_ban = int(args[1])
     if user_to_ban in banned_users:
         await message.reply(f"⚠️ المستخدم <code>{user_to_ban}</code> محظور بالفعل.")
         return
@@ -75,11 +77,16 @@ async def ban_user(message: types.Message):
     await message.reply(f"🚫 تم حظر المستخدم <code>{user_to_ban}</code> من استخدام البوت.")
 
 # --- Unban User ---
-@router.message(F.text.regexp(r'^/unban\s+\d+$'))
+@router.message(Command("unban"), StateFilter("*"))
 async def unban_user(message: types.Message):
     if not await is_admin(message): return
 
-    user_to_unban = int(message.text.split()[1])
+    args = message.text.split()
+    if len(args) < 2 or not args[1].isdigit():
+        await message.reply("❌ الصيغة الصحيحة: /unban [user_id]")
+        return
+
+    user_to_unban = int(args[1])
     if user_to_unban not in banned_users:
         await message.reply(f"⚠️ المستخدم <code>{user_to_unban}</code> غير محظور.")
         return
@@ -88,23 +95,48 @@ async def unban_user(message: types.Message):
     save_banned_users(banned_users)
     await message.reply(f"✅ تم فك الحظر عن المستخدم <code>{user_to_unban}</code>.")
 
-# --- Reply To Command (Fallback) ---
-@router.message(Command("replyto"))
+# --- Reply To Command (Supercharged) ---
+@router.message(Command("replyto"), StateFilter("*"))
 async def start_reply_command(message: types.Message, state: FSMContext):
     if not await is_admin(message): return
 
-    args = message.text.split()
+    # تقسيم النص إلى 3 أجزاء كحد أقصى (الأمر، الآيدي، محتوى الرسالة إن وُجد)
+    args = message.text.split(maxsplit=2)
+    
     if len(args) < 2:
-        await message.reply("❓ الرجاء إدخال معرف المستخدم (User ID) للرد عليه:")
+        await message.reply("❓ الرجاء إدخال معرف المستخدم (User ID) للرد عليه:\nمثال: <code>/replyto 123456789</code>")
         await state.set_state(AdminReplyForm.waiting_for_user_id)
-    else:
+        
+    elif len(args) == 2:
+        # إذا أدخل الآيدي فقط، ندخله في الـ FSM
         try:
             target_id = int(args[1])
             await state.update_data(target_user_id=target_id)
             await state.set_state(AdminReplyForm.waiting_for_message)
-            await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_id}</code>.")
+            await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم User ID <code>{target_id}</code>.")
         except ValueError:
             await message.reply("❌ الرجاء إدخال معرف مستخدم صالح (رقم فقط).")
+            
+    else:
+        # الميزة الجديدة: إذا أدخل الأمر + الآيدي + الرسالة في سطر واحد
+        try:
+            target_id = int(args[1])
+            reply_text_content = args[2]
+            
+            reply_text = (
+                f"{reply_text_content}\n------------------------------------------------------------\n"
+                "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم</i>"
+            )
+            
+            await message.bot.send_message(chat_id=target_id, text=reply_text)
+            await message.reply(f"✅ تم إرسال الرسالة بنجاح.\n👤 تمت المعالجة بواسطة المشرف: {message.from_user.full_name}")
+            await state.clear() # تفريغ الحالة للضمان
+            
+        except ValueError:
+            await message.reply("❌ الرجاء إدخال معرف مستخدم صالح (رقم فقط).")
+        except Exception as e:
+            await message.reply(f"❌ فشل إرسال الرسالة: {str(e)}")
+            logging.error(f"Error sending reply to user {target_id}: {e}")
 
 # --- Process Missing Target ID for Reply ---
 @router.message(AdminReplyForm.waiting_for_user_id)
@@ -116,7 +148,7 @@ async def process_target_id(message: types.Message, state: FSMContext):
     target_id = int(message.text)
     await state.update_data(target_user_id=target_id)
     await state.set_state(AdminReplyForm.waiting_for_message)
-    await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم <code>{target_id}</code>.")
+    await message.reply(f"✍️ اكتب الآن رسالتك للمستخدم User ID <code>{target_id}</code>.")
 
 # --- Process Admin Message ---
 @router.message(AdminReplyForm.waiting_for_message)
@@ -125,7 +157,7 @@ async def handle_admin_reply_fsm(message: types.Message, state: FSMContext):
     target_user_id = data.get("target_user_id")
 
     reply_text = (
-        f"{message.text}\n"
+        f"{message.text}\n-------------------------------------------------------------\n"
         "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم</i>"
     )
     try:
@@ -136,9 +168,3 @@ async def handle_admin_reply_fsm(message: types.Message, state: FSMContext):
         logging.error(f"Error sending reply to user {target_user_id}: {e}")
     
     await state.clear()
-
-# --- Handle Incomplete Admin Commands ---
-@router.message(F.text.regexp(r'^/(ban|unban)(\s+.*)?$'))
-async def handle_incomplete_command(message: types.Message):
-    command = message.text.split()[0]
-    await message.reply(f"❌ الصيغة: {command} [user_id]")
