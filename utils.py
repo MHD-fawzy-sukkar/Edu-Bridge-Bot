@@ -1,7 +1,7 @@
 import asyncio
 import json
 import os
-
+import logging
 from aiohttp.client_exceptions import ClientConnectorError
 
 from config import (GROUP_ID, ERRORS_TOPIC, BANNED_USERS_FILE)
@@ -15,7 +15,7 @@ async def notify_admin(bot, error_message: str):
             text=f"⚠️ خطأ في البوت:\n{error_message}",
         )
     except Exception as e:
-        print(f"Failed to send error notification: {e}")
+        logging.error(f"Failed to send error notification: {e}")
 
 
 async def retry(bot, func, max_attempts=3, delay=0.5):
@@ -28,7 +28,7 @@ async def retry(bot, func, max_attempts=3, delay=0.5):
         except ClientConnectorError as e:
             last_exception = e
 
-            print(f"Retry {attempt + 1} failed: {e}")
+            logging.error(f"Retry {attempt + 1} failed: {e}")
 
             await notify_admin(
                 bot,

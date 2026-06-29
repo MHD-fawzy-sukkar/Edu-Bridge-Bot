@@ -1,3 +1,4 @@
+import logging
 from aiogram import Router, F, types
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
@@ -28,7 +29,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
         # Send interaction alert to the admin group
         await message.bot.send_message(chat_id=GROUP_ID, message_thread_id=STOP_TOPIC, text=start_msg)
     except Exception as e:
-        print(f"Failed to send start interaction message: {e}")
+        logging.error(f"Failed to send start interaction message: {e}")
 
     await message.answer(
         "👋 مرحباً بك في بوت <b>Edu Bridge</b>!\n"

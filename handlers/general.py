@@ -1,7 +1,9 @@
+import logging
 from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.enums import ChatType, ChatMemberStatus
+from keyboards import get_cancel_keyboard
 
 from services.banned import banned_users
 
@@ -18,6 +20,15 @@ async def cmd_stop(message: types.Message, state: FSMContext):
     # Clear FSM state
     await state.clear()
     await message.answer("🛑 تم إلغاء العملية. يمكنك البدء من جديد باستخدام\n/start")
+
+# --- Cancel Command ---
+@router.message(F.text == "❌ إلغاء")
+async def cancel_process(message: types.Message, state: FSMContext):
+    await state.clear()
+    await message.answer(
+        "🛑 تم إلغاء العملية الحالية. يمكنك البدء من جديد متى شئت.",
+        reply_markup=get_cancel_keyboard()
+    )
 
 # --- Help Command ---
 @router.message(Command("help"))
@@ -96,7 +107,7 @@ async def handle_no_start_message(message: types.Message, state: FSMContext):
             if user_member.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.CREATOR]:
                 return
         except Exception as e:
-            print(f"Failed to check admin status: {e}")
+            logging.error(f"Failed to check admin status: {e}")
 
     # Check if the user is in an active FSM state
     current_state = await state.get_state()

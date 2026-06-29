@@ -1,3 +1,4 @@
+import logging
 from aiogram import Bot
 from config import GROUP_ID, ERRORS_TOPIC
 
@@ -9,4 +10,4 @@ async def notify_admin(bot: Bot, error_message: str):
             text=f"⚠️ خطأ في البوت:\n{error_message}"
         )
     except Exception as e:
-        print(f"Failed to send error notification: {e}")
+        logging.error(f"Failed to send error notification: {e}")

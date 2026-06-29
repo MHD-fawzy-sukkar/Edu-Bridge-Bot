@@ -10,6 +10,14 @@ from config import TOKEN, GROUP_ID
 # Import routers from handlers
 from handlers import start, request, support, admin, general
 
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    filename="bot.log"
+)
+
 # --- Setup Bot Commands ---
 async def set_commands(bot: Bot):
     # Commands for regular users
@@ -33,7 +41,7 @@ async def set_commands(bot: Bot):
 
 # --- Main Application Entry Point ---
 async def main():
-    print("✅ Starting bot initialization...")
+    logging.error("✅ Starting bot initialization...")
     
     # Setup bot session and dispatcher
     session = AiohttpSession()
@@ -52,17 +60,16 @@ async def main():
         await bot.delete_webhook(drop_pending_updates=True)
         await set_commands(bot)
         
-        print("✅ Bot is polling and ready to receive messages!")
+        logging.error("✅ Bot is polling and ready to receive messages!")
         await dp.start_polling(bot)
-        
     except TelegramConflictError as e:
-        print(f"TelegramConflictError during startup: {e}")
+        logging.error(f"TelegramConflictError during startup: {e}")
     except Exception as e:
-        print(f"General error during startup: {e}")
+        logging.error(f"General error during startup: {e}")
     finally:
         # Always close the session properly when shutting down
         await bot.session.close()
-        print("🛑 Bot session closed.")
+        logging.info("🛑 Bot session closed.")
 
 if __name__ == "__main__":
     asyncio.run(main())

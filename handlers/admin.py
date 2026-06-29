@@ -1,10 +1,13 @@
+import re
+import logging
 from aiogram import Router, F, types
 from aiogram.filters import Command
 from aiogram.enums import ChatType, ChatMemberStatus
 from aiogram.fsm.context import FSMContext
 
 from services.banned import banned_users, save_banned_users
-from states import AdminReplyForm
+from states.forms import AdminReplyForm
+from config import GROUP_ID
 
 router = Router()
 
@@ -20,6 +23,42 @@ async def is_admin(message: types.Message) -> bool:
         return False
     
     return True
+
+# --- Direct Reply via Swipe ---
+@router.message(F.chat.id == GROUP_ID, F.reply_to_message, F.text)
+async def direct_admin_reply(message: types.Message):
+    # لا نرد إذا كان المشرف يكتب أمراً مثل /ban
+    if message.text.startswith('/'):
+        return
+
+    # التحقق من أن من قام بالرد هو مشرف فعلاً
+    if not await is_admin(message): 
+        return
+
+    # جلب نص الرسالة التي قام المشرف بالرد عليها
+    original_text = message.reply_to_message.text or message.reply_to_message.caption
+    if not original_text:
+        return
+
+    # استخراج الـ User ID من الرسالة الأصلية باستخدام Regex
+    match = re.search(r'User ID:\s*(\d+)', original_text)
+    if not match:
+        # إذا لم يجد ID (بمعنى أن المشرف رد على رسالة عادية بالجروب)، يتجاهلها البوت بصمت
+        return
+
+    target_user_id = int(match.group(1))
+
+    reply_text = (
+        f"{message.text}\n"
+        "<i>⚠️ ملاحظة: الرد على هذه الرسالة لن يصل إلينا. يرجى التواصل مباشرة مع الشخص المعني، وفي حال واجهت أي مشكلة يمكنك التواصل مع الدعم</i>"
+    )
+    
+    try:
+        await message.bot.send_message(chat_id=target_user_id, text=reply_text)
+        await message.reply(f"✅ تم إرسال الرسالة بنجاح.\n👤 تمت المعالجة بواسطة المشرف: {message.from_user.full_name}")
+    except Exception as e:
+        await message.reply(f"❌ فشل إرسال الرسالة: {str(e)}")
+        logging.error(f"Error sending reply to user {target_user_id}: {e}")
 
 # --- Ban User ---
 @router.message(F.text.regexp(r'^/ban\s+\d+$'))
@@ -49,7 +88,7 @@ async def unban_user(message: types.Message):
     save_banned_users(banned_users)
     await message.reply(f"✅ تم فك الحظر عن المستخدم <code>{user_to_unban}</code>.")
 
-# --- Reply To Command ---
+# --- Reply To Command (Fallback) ---
 @router.message(Command("replyto"))
 async def start_reply_command(message: types.Message, state: FSMContext):
     if not await is_admin(message): return
@@ -81,7 +120,7 @@ async def process_target_id(message: types.Message, state: FSMContext):
 
 # --- Process Admin Message ---
 @router.message(AdminReplyForm.waiting_for_message)
-async def handle_admin_reply(message: types.Message, state: FSMContext):
+async def handle_admin_reply_fsm(message: types.Message, state: FSMContext):
     data = await state.get_data()
     target_user_id = data.get("target_user_id")
 
@@ -91,10 +130,10 @@ async def handle_admin_reply(message: types.Message, state: FSMContext):
     )
     try:
         await message.bot.send_message(chat_id=target_user_id, text=reply_text)
-        await message.reply("✅ تم إرسال الرسالة بنجاح.")
+        await message.reply(f"✅ تم إرسال الرسالة بنجاح.\n👤 تمت المعالجة بواسطة المشرف: {message.from_user.full_name}")
     except Exception as e:
         await message.reply(f"❌ فشل إرسال الرسالة: {str(e)}")
-        print(f"Error sending reply to user {target_user_id}: {e}")
+        logging.error(f"Error sending reply to user {target_user_id}: {e}")
     
     await state.clear()
 
