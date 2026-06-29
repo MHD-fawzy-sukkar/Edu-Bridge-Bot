@@ -6,7 +6,7 @@ from aiogram.enums import ChatType, ChatMemberStatus
 from aiogram.fsm.context import FSMContext
 
 from services.banned import banned_users, save_banned_users
-from states.forms import AdminReplyForm
+from states import AdminReplyForm
 from config import GROUP_ID
 
 router = Router()
