@@ -5,7 +5,7 @@ from aiogram.exceptions import TelegramForbiddenError, TelegramBadRequest
 
 from states import RequestForm
 from config import GROUP_ID, DONOR_TOPIC_ID, BENEFICIARY_TOPIC_ID
-from keyboards import get_cancel_keyboard, get_main_keyboard
+from keyboards import *
 from services.notify import notify_admin
 
 router = Router()
@@ -22,6 +22,22 @@ async def process_name(message: types.Message, state: FSMContext):
     await state.set_state(RequestForm.waiting_for_address)
     await message.answer("📍 ما هو عنوانك؟ (مثال: دمشق - باب توما)", reply_markup=get_cancel_keyboard())
 
+@router.message(RequestForm.waiting_for_governorate)
+async def process_governorate(message: types.Message, state: FSMContext):
+    # Validation: Ensure the user selected a valid Syrian governorate (Optional but recommended)
+    valid_govs = [
+        "دمشق", "ريف دمشق", "حلب", "حمص", "حماة", "اللاذقية", "طرطوس", 
+        "إدلب", "درعا", "السويداء", "القنيطرة", "دير الزور", "الرقة", "الحسكة"
+    ]
+    
+    if message.text not in valid_govs:
+        await message.answer("⚠️ يرجى اختيار المحافظة من الأزرار المتاحة فقط.", reply_markup=get_governorates_keyboard())
+        return
+
+    # Save governorate and ask for specific address
+    await state.update_data(governorate=message.text)
+    await state.set_state(RequestForm.waiting_for_address)
+    await message.answer("🏠 أين بالضبط؟ (مثال: المزة - جانب جامع الأكرم)", reply_markup=get_cancel_keyboard())
 @router.message(RequestForm.waiting_for_address)
 async def process_address(message: types.Message, state: FSMContext):
     # Validation: Ensure address is not too short
@@ -51,7 +67,7 @@ async def process_content(message: types.Message, state: FSMContext):
     final_msg = (
         f"🆔 <b>User ID:</b> <code>{message.from_user.id}</code>\n"
         f"📨 <b>رسالة جديدة من {type_ar}</b>\n\n"
-        f"👤 <b>الاسم الذي أدخله:</b> {data['name']}\n"
+        f"👤 <b>الاسم:</b> {data['name']}\n"
         f"📱 <b>اسم الحساب:</b> {data['telegram_name']}\n"
         f"🔗 <b>Username:</b> {data['username']}\n"
         f"📍 <b>العنوان:</b> {data['address']}\n"

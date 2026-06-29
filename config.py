@@ -1,4 +1,6 @@
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 TOKEN = os.getenv("BOT_TOKEN")
 GROUP_ID = -1002555456158

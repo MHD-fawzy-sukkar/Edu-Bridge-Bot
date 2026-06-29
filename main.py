@@ -41,8 +41,8 @@ async def set_commands(bot: Bot):
 
 # --- Main Application Entry Point ---
 async def main():
-    logging.error("✅ Starting bot initialization...")
-    
+    logging.info("✅ Starting bot initialization...")
+    print("✅ Starting bot initialization...")
     # Setup bot session and dispatcher
     session = AiohttpSession()
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML, session=session)
@@ -60,7 +60,7 @@ async def main():
         await bot.delete_webhook(drop_pending_updates=True)
         await set_commands(bot)
         
-        logging.error("✅ Bot is polling and ready to receive messages!")
+        logging.info("✅ Bot is polling and ready to receive messages!")
         await dp.start_polling(bot)
     except TelegramConflictError as e:
         logging.error(f"TelegramConflictError during startup: {e}")

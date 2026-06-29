@@ -1,0 +1,31 @@
+2026-06-29 22:37:22,611 - ERROR - \u2705 Starting bot initialization...
+2026-06-29 22:37:27,189 - ERROR - \u2705 Bot is polling and ready to receive messages!
+2026-06-29 22:37:27,189 - INFO - Start polling
+2026-06-29 22:37:27,760 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-29 22:38:36,286 - INFO - Polling stopped
+2026-06-29 22:38:36,545 - INFO - \U0001f6d1 Bot session closed.
+2026-06-29 22:38:36,545 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-29 22:38:40,602 - ERROR - \u2705 Starting bot initialization...
+2026-06-29 22:38:45,171 - ERROR - \u2705 Bot is polling and ready to receive messages!
+2026-06-29 22:38:45,171 - INFO - Start polling
+2026-06-29 22:38:45,732 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-29 22:39:15,116 - INFO - Update id=62932690 is handled. Duration 3812 ms by bot id=8251440358
+2026-06-29 22:39:19,135 - INFO - Update id=62932691 is handled. Duration 827 ms by bot id=8251440358
+2026-06-29 22:39:23,011 - INFO - Update id=62932692 is handled. Duration 625 ms by bot id=8251440358
+2026-06-29 22:39:33,648 - INFO - Update id=62932693 is handled. Duration 875 ms by bot id=8251440358
+2026-06-29 22:39:38,050 - INFO - Update id=62932694 is handled. Duration 2156 ms by bot id=8251440358
+2026-06-29 22:40:02,865 - INFO - Polling stopped
+2026-06-29 22:40:03,129 - INFO - \U0001f6d1 Bot session closed.
+2026-06-29 22:40:03,129 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-29 22:42:39,383 - ERROR - \u2705 Starting bot initialization...
+2026-06-29 22:42:43,734 - ERROR - \u2705 Bot is polling and ready to receive messages!
+2026-06-29 22:42:43,734 - INFO - Start polling
+2026-06-29 22:42:44,281 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-29 22:42:59,495 - INFO - Update id=62932695 is handled. Duration 2750 ms by bot id=8251440358
+2026-06-29 22:43:22,344 - INFO - Update id=62932696 is handled. Duration 2313 ms by bot id=8251440358
+2026-06-29 22:43:32,196 - INFO - Update id=62932697 is handled. Duration 625 ms by bot id=8251440358
+2026-06-29 22:43:36,583 - INFO - Update id=62932698 is handled. Duration 922 ms by bot id=8251440358
+2026-06-29 22:43:42,093 - INFO - Update id=62932699 is handled. Duration 1844 ms by bot id=8251440358
+2026-06-29 22:45:33,092 - INFO - Polling stopped
+2026-06-29 22:45:33,355 - INFO - \U0001f6d1 Bot session closed.
+2026-06-29 22:45:33,355 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
