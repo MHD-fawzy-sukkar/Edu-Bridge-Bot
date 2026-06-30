@@ -2,8 +2,14 @@ from sqlalchemy import BigInteger, String, DateTime, ForeignKey, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 import datetime
+import os
 
-engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')
+if os.getenv("RAILWAY_ENVIRONMENT_ID"):
+    db_path = 'sqlite+aiosqlite:////app/data/db.sqlite3' 
+else:
+    db_path = 'sqlite+aiosqlite:///db.sqlite3'
+
+engine = create_async_engine(url=db_path)
 async_session = async_sessionmaker(engine)
 
 class Base(AsyncAttrs, DeclarativeBase): pass

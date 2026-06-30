@@ -2,3 +2,48 @@
 2026-06-30 20:08:36,356 - INFO - Polling stopped
 2026-06-30 20:08:36,602 - INFO - \U0001f6d1 Bot session closed.
 2026-06-30 20:08:36,602 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 21:17:48,065 - INFO - \u2705 Starting bot initialization...
+2026-06-30 21:17:49,782 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 22:34:10,071 - INFO - \u2705 Starting bot initialization...
+2026-06-30 22:34:11,624 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 22:34:11,624 - INFO - Start polling
+2026-06-30 22:34:11,736 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 22:34:16,188 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:34:16,189 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8251440358)
+2026-06-30 22:34:21,569 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:34:21,570 - WARNING - Sleep for 1.301716 seconds and try again... (tryings = 1, bot id = 8251440358)
+2026-06-30 22:34:27,596 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:34:27,598 - WARNING - Sleep for 1.749001 seconds and try again... (tryings = 2, bot id = 8251440358)
+2026-06-30 22:34:33,134 - INFO - Polling stopped
+2026-06-30 22:34:33,387 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 22:34:33,387 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 22:35:26,990 - INFO - \u2705 Starting bot initialization...
+2026-06-30 22:35:28,697 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 22:35:28,697 - INFO - Start polling
+2026-06-30 22:35:28,943 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 22:35:36,809 - INFO - Update id=62932950 is handled. Duration 1061 ms by bot id=8251440358
+2026-06-30 22:35:56,775 - INFO - Polling stopped
+2026-06-30 22:35:57,044 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 22:35:57,044 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 22:36:01,600 - INFO - \u2705 Starting bot initialization...
+2026-06-30 22:36:03,024 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 22:36:03,025 - INFO - Start polling
+2026-06-30 22:36:03,250 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 22:36:04,326 - INFO - Update id=62932951 is handled. Duration 827 ms by bot id=8251440358
+2026-06-30 22:37:52,954 - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 1236] The network connection was aborted by the local system
+2026-06-30 22:37:52,954 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8251440358)
+2026-06-30 22:38:06,023 - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientConnectorError: Cannot connect to host api.telegram.org:443 ssl:default [getaddrinfo failed]
+2026-06-30 22:38:06,023 - WARNING - Sleep for 1.410045 seconds and try again... (tryings = 1, bot id = 8251440358)
+2026-06-30 22:38:17,875 - INFO - Connection established (tryings = 2, bot id = 8251440358)
+2026-06-30 22:38:17,878 - ERROR - Failed to fetch updates - TelegramNetworkError: HTTP Client says - ClientOSError: [WinError 1236] The network connection was aborted by the local system
+2026-06-30 22:38:17,878 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8251440358)
+2026-06-30 22:38:29,557 - INFO - Connection established (tryings = 1, bot id = 8251440358)
+2026-06-30 22:42:08,390 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:42:08,391 - WARNING - Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8251440358)
+2026-06-30 22:42:13,550 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:42:13,550 - WARNING - Sleep for 1.280478 seconds and try again... (tryings = 1, bot id = 8251440358)
+2026-06-30 22:42:19,240 - ERROR - Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-06-30 22:42:19,240 - WARNING - Sleep for 1.593533 seconds and try again... (tryings = 2, bot id = 8251440358)
+2026-06-30 22:42:25,008 - INFO - Polling stopped
+2026-06-30 22:42:25,270 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 22:42:25,271 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
