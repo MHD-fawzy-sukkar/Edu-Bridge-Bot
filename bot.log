@@ -436,3 +436,318 @@ aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: can't
 2026-06-30 19:12:36,712 - INFO - Polling stopped
 2026-06-30 19:12:36,966 - INFO - \U0001f6d1 Bot session closed.
 2026-06-30 19:12:36,966 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:38:15,728 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:38:17,202 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:38:17,204 - INFO - Start polling
+2026-06-30 19:38:17,327 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:39:40,429 - INFO - Update id=62932913 is handled. Duration 1000 ms by bot id=8251440358
+2026-06-30 19:39:55,490 - INFO - Update id=62932914 is handled. Duration 188 ms by bot id=8251440358
+2026-06-30 19:39:58,723 - INFO - Update id=62932915 is handled. Duration 155 ms by bot id=8251440358
+2026-06-30 19:40:00,372 - INFO - Update id=62932916 is handled. Duration 156 ms by bot id=8251440358
+2026-06-30 19:40:02,684 - INFO - Update id=62932917 is handled. Duration 265 ms by bot id=8251440358
+2026-06-30 19:40:06,497 - INFO - Update id=62932918 is handled. Duration 344 ms by bot id=8251440358
+2026-06-30 19:40:09,562 - INFO - Update id=62932919 is handled. Duration 420 ms by bot id=8251440358
+2026-06-30 19:47:53,053 - INFO - Polling stopped
+2026-06-30 19:47:53,316 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:47:53,316 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:47:58,296 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:47:59,633 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:47:59,633 - INFO - Start polling
+2026-06-30 19:47:59,745 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:48:09,298 - INFO - Update id=62932920 is handled. Duration 1093 ms by bot id=8251440358
+2026-06-30 19:48:42,080 - INFO - Update id=62932921 is handled. Duration 922 ms by bot id=8251440358
+2026-06-30 19:49:36,226 - INFO - Polling stopped
+2026-06-30 19:49:36,479 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:49:36,479 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:49:40,556 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:49:41,896 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:49:41,897 - INFO - Start polling
+2026-06-30 19:49:42,008 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:49:47,230 - INFO - Update id=62932922 is not handled. Duration 15 ms by bot id=8251440358
+2026-06-30 19:49:47,230 - ERROR - Cause exception while process update id=62932922 by bot id=8251440358
+AttributeError: 'str' object has no attribute 'username'
+Traceback (most recent call last):
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\handlers\start.py", line 14, in cmd_start
+    await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
+  File "D:\Bac\Edu-Bridge-Bot\database\requests.py", line 8, in add_user
+    session.add(User(tg_id=tg_id, telegram_name=telegram_name, username='@'.username))
+                                                                        ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'username'
+2026-06-30 19:50:26,469 - INFO - Polling stopped
+2026-06-30 19:50:26,724 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:50:26,724 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:50:30,917 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:50:32,209 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:50:32,209 - INFO - Start polling
+2026-06-30 19:50:32,327 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:50:32,467 - INFO - Update id=62932923 is not handled. Duration 0 ms by bot id=8251440358
+2026-06-30 19:50:32,467 - ERROR - Cause exception while process update id=62932923 by bot id=8251440358
+AttributeError: 'str' object has no attribute 'username'
+Traceback (most recent call last):
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\handlers\start.py", line 14, in cmd_start
+    await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
+  File "D:\Bac\Edu-Bridge-Bot\database\requests.py", line 8, in add_user
+    session.add(User(tg_id=tg_id, telegram_name=telegram_name, username=("@".username)))
+                                                                         ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'username'
+2026-06-30 19:51:03,722 - INFO - Polling stopped
+2026-06-30 19:51:03,981 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:51:03,982 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:51:09,702 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:51:11,012 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:51:11,013 - INFO - Start polling
+2026-06-30 19:51:11,119 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:51:11,835 - INFO - Update id=62932924 is not handled. Duration 15 ms by bot id=8251440358
+2026-06-30 19:51:11,835 - ERROR - Cause exception while process update id=62932924 by bot id=8251440358
+AttributeError: 'str' object has no attribute 'username'
+Traceback (most recent call last):
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\handlers\start.py", line 14, in cmd_start
+    await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
+  File "D:\Bac\Edu-Bridge-Bot\database\requests.py", line 8, in add_user
+    session.add(User(tg_id=tg_id, telegram_name=telegram_name, username=str("@".username)))
+                                                                            ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'username'
+2026-06-30 19:51:13,946 - INFO - Update id=62932925 is not handled. Duration 0 ms by bot id=8251440358
+2026-06-30 19:51:13,946 - ERROR - Cause exception while process update id=62932925 by bot id=8251440358
+AttributeError: 'str' object has no attribute 'username'
+Traceback (most recent call last):
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 309, in _process_update
+    response = await self.feed_update(bot, update, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 158, in feed_update
+    response = await self.update.wrap_outer_middleware(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\error.py", line 25, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\middlewares\user_context.py", line 27, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\fsm\middleware.py", line 41, in __call__
+    return await handler(event, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\dispatcher.py", line 276, in _listen_update
+    return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 144, in _propagate_event
+    response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 116, in propagate_event
+    return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 111, in _wrapped
+    return await self._propagate_event(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\router.py", line 136, in _propagate_event
+    response = await observer.trigger(event, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\telegram.py", line 121, in trigger
+    return await wrapped_inner(event, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\.venv\Lib\site-packages\aiogram\dispatcher\event\handler.py", line 43, in call
+    return await wrapped()
+           ^^^^^^^^^^^^^^^
+  File "D:\Bac\Edu-Bridge-Bot\handlers\start.py", line 14, in cmd_start
+    await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
+  File "D:\Bac\Edu-Bridge-Bot\database\requests.py", line 8, in add_user
+    session.add(User(tg_id=tg_id, telegram_name=telegram_name, username=str("@".username)))
+                                                                            ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'username'
+2026-06-30 19:53:21,262 - INFO - Polling stopped
+2026-06-30 19:53:21,515 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:53:21,516 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:53:26,087 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:53:27,177 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:53:27,178 - INFO - Start polling
+2026-06-30 19:53:27,287 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:59:05,239 - INFO - Polling stopped
+2026-06-30 19:59:05,496 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 19:59:05,497 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:59:09,776 - INFO - \u2705 Starting bot initialization...
+2026-06-30 19:59:11,195 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 19:59:11,195 - INFO - Start polling
+2026-06-30 19:59:11,322 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 19:59:25,986 - INFO - Update id=62932926 is handled. Duration 967 ms by bot id=8251440358
+2026-06-30 19:59:59,802 - INFO - Update id=62932927 is handled. Duration 733 ms by bot id=8251440358
+2026-06-30 20:00:02,287 - INFO - Update id=62932928 is handled. Duration 171 ms by bot id=8251440358
+2026-06-30 20:00:03,645 - INFO - Update id=62932929 is handled. Duration 172 ms by bot id=8251440358
+2026-06-30 20:00:07,904 - INFO - Update id=62932930 is handled. Duration 187 ms by bot id=8251440358
+2026-06-30 20:00:09,195 - INFO - Update id=62932931 is handled. Duration 172 ms by bot id=8251440358
+2026-06-30 20:00:10,729 - INFO - Update id=62932932 is handled. Duration 187 ms by bot id=8251440358
+2026-06-30 20:00:13,847 - INFO - Update id=62932933 is handled. Duration 234 ms by bot id=8251440358
+2026-06-30 20:00:19,129 - INFO - Update id=62932934 is handled. Duration 719 ms by bot id=8251440358
+2026-06-30 20:02:17,566 - INFO - Polling stopped
+2026-06-30 20:02:17,833 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 20:02:17,833 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 20:02:22,572 - INFO - \u2705 Starting bot initialization...
+2026-06-30 20:02:23,596 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-06-30 20:02:23,597 - INFO - Start polling
+2026-06-30 20:02:23,700 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-06-30 20:02:34,303 - INFO - Update id=62932935 is handled. Duration 952 ms by bot id=8251440358
+2026-06-30 20:02:46,146 - INFO - Update id=62932936 is handled. Duration 172 ms by bot id=8251440358
+2026-06-30 20:02:52,085 - INFO - Update id=62932937 is handled. Duration 234 ms by bot id=8251440358
+2026-06-30 20:02:53,597 - INFO - Update id=62932938 is handled. Duration 234 ms by bot id=8251440358
+2026-06-30 20:02:54,834 - INFO - Update id=62932939 is handled. Duration 234 ms by bot id=8251440358
+2026-06-30 20:03:03,962 - INFO - Update id=62932940 is handled. Duration 452 ms by bot id=8251440358
+2026-06-30 20:03:08,039 - INFO - Update id=62932941 is handled. Duration 655 ms by bot id=8251440358
+2026-06-30 20:03:41,917 - INFO - Update id=62932942 is handled. Duration 843 ms by bot id=8251440358
+2026-06-30 20:03:57,063 - INFO - Update id=62932943 is handled. Duration 467 ms by bot id=8251440358
+2026-06-30 20:04:44,360 - INFO - Polling stopped
+2026-06-30 20:04:44,621 - INFO - \U0001f6d1 Bot session closed.
+2026-06-30 20:04:44,622 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'

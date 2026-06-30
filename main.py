@@ -3,6 +3,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.exceptions import TelegramConflictError
+from database.models import async_main
 
 # Import configuration
 from config import TOKEN, GROUP_ID
@@ -41,6 +42,7 @@ async def set_commands(bot: Bot):
 
 # --- Main Application Entry Point ---
 async def main():
+    await async_main()
     logging.info("✅ Starting bot initialization...")
     print("✅ Starting bot initialization...")
     # Setup bot session and dispatcher

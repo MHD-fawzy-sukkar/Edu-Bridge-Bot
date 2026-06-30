@@ -2,7 +2,7 @@ import logging
 from aiogram import Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.exceptions import TelegramForbiddenError, TelegramBadRequest
-
+from database.requests import add_request_data
 from states import RequestForm
 from config import GROUP_ID, DONOR_TOPIC_ID, BENEFICIARY_TOPIC_ID
 from keyboards import *
@@ -91,10 +91,16 @@ async def process_content(message: types.Message, state: FSMContext):
     # Retrieve all saved data
     data = await state.get_data()
     user_type = data.get("type")
-    
     topic_id = DONOR_TOPIC_ID if user_type == "donor" else BENEFICIARY_TOPIC_ID
     type_ar = 'متبرع' if user_type == 'donor' else 'مستفيد'
     
+    await add_request_data(
+        tg_id=message.from_user.id,
+        data=data,
+        username=message.from_user.username,
+        content=message.text
+    )    
+
     final_msg = (
         f"🆔 <b>User ID:</b> <code>{message.from_user.id}</code>\n"
         f"📨 <b>رسالة جديدة من {type_ar}</b>\n"

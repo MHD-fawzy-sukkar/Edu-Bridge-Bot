@@ -2,7 +2,7 @@ import logging
 from aiogram import Router, F, types
 from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
-
+from database.requests import add_user
 from keyboards import get_main_keyboard, get_cancel_keyboard
 from states import RequestForm, SupportForm
 from services.banned import banned_users
@@ -11,6 +11,7 @@ from config import GROUP_ID, STOP_TOPIC
 router = Router()
 @router.message(CommandStart(), StateFilter("*"))
 async def cmd_start(message: types.Message, state: FSMContext):
+    await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
     user_id = message.from_user.id
     if user_id in banned_users:
         return
