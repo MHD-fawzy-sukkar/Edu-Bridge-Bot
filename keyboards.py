@@ -34,7 +34,8 @@ def get_branch_keyboard():
     return types.ReplyKeyboardMarkup(
         keyboard=[
             [types.KeyboardButton(text="🔬 علمي"), types.KeyboardButton(text="📖 أدبي")],
-            [types.KeyboardButton(text="⚙️ مهني"), types.KeyboardButton(text="🕌 شرعي")]
+            [types.KeyboardButton(text="⚙️ مهني"), types.KeyboardButton(text="🕌 شرعي")],
+            [types.KeyboardButton(text="❌ إلغاء")]
         ],
         resize_keyboard=True
     )

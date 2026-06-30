@@ -70,7 +70,7 @@ async def process_address(message: types.Message, state: FSMContext):
             "لنسهل وصول تبرعك، يرجى ذكر:\n"
             "🔸 <b>المحتوى:</b> (كتب منهاج، نوط، أسئلة دورات...)\n"
             "🔸 <b>الحالة:</b> (جديدة، مخططة، محلولة...)\n\n"
-            "📝 <i>مثال: מתبرع بكتب بكالوريا نسخة 2026 بحالة ممتازة، مع نوطة رياضيات للأستاذ كذا.</i>\n\n"
+            "📝 <i>مثال: تبرع بكتب بكالوريا نسخة 2026 بحالة ممتازة، مع نوطة رياضيات للأستاذ كذا.</i>\n\n"
         )
     else:
         content_prompt = (
@@ -97,12 +97,13 @@ async def process_content(message: types.Message, state: FSMContext):
     
     final_msg = (
         f"🆔 <b>User ID:</b> <code>{message.from_user.id}</code>\n"
-        f"📨 <b>رسالة جديدة من {type_ar}</b>\n\n"
-        f"👤 <b>الاسم:</b> {data['name']}\n"
+        f"📨 <b>رسالة جديدة من {type_ar}</b>\n"
         f"📱 <b>اسم الحساب:</b> {data['telegram_name']}\n"
-        f"🔗 <b>Username:</b> {data['username']}\n"
+        f"🔗 <b>Username:</b> {data['username']}\n\n"
+        f"👤 <b>الاسم:</b> {data['name']}\n"
         f"🎓 <b>الفرع:</b> {data['branch']}\n"
-        f"📍 <b>العنوان:</b> {data['address']}\n"
+        f"🌍 <b>المحافظة</b> {data['governorate']}\n"
+        f"📍 <b>العنوان:</b> {data['address']}\n\n"
         f"✉️ <b>المحتوى:</b>\n{message.text}"
     )
     

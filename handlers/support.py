@@ -13,7 +13,7 @@ router = Router()
 @router.message(SupportForm.waiting_for_content)
 async def process_support_content(message: types.Message, state: FSMContext):
     # Validation: Ensure support message is not too short
-    if len(message.text.strip()) < 3:
+    if len(message.text.strip()) < 10:
         await message.answer("⚠️ عذراً، محتوى الرسالة قصير جداً. يرجى التوضيح أكثر.", reply_markup=get_cancel_keyboard())
         return
 
