@@ -87,4 +87,14 @@ async def choose_support_type(message: types.Message, state: FSMContext):
     # Store support data and move to content state
     await state.update_data(username=f"@{username}", telegram_name=message.from_user.full_name)
     await state.set_state(SupportForm.waiting_for_content)
-    await message.answer("📧 اكتب رسالتك:", reply_markup=get_cancel_keyboard())
+    
+    support_prompt = (
+        "🛠️ <b>قسم الدعم الفني وبلاغات الأعطال</b>\n\n"
+        "⚠️ <b>تنبيه هام:</b>\n"
+        "هذا القسم مخصص <u>فقط</u> للتواصل مع مطوري البوت وفريق الصيانة الفنية في حال واجهت مشكلة تقنية أو عطلاً أو لديك سؤال حول البوت.\n\n"
+        "❌ <b>هذا المكان ليس لتقديم طلبات الكتب أو التبرع بها.</b> إذا كنت تريد طلب كتاب أو التبرع، يرجى إلغاء هذه العملية فوراً والعودة للقائمة الرئيسية لتسجيل طلبك بالمكان الصحيح.\n\n"
+        "💬 إذا كنت متأكداً وتريد إرسال شكوى تقنية، <b>اكتب تفاصيل مشكلتك الآن في رسالة واحدة</b> وسيقوم فريق الدعم بمعالجتها فوراً.\n\n"
+        "⬇️ للعودة والتراجع، اضغط على زر <b>❌ إلغاء العمل الحالي</b> بالأسفل."
+    )
+    
+    await message.answer(support_prompt, parse_mode="HTML", reply_markup=get_cancel_keyboard())
