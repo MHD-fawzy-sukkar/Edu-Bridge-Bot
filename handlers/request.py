@@ -56,7 +56,7 @@ async def process_governorate(message: types.Message, state: FSMContext):
 @router.message(RequestForm.waiting_for_address)
 async def process_address(message: types.Message, state: FSMContext):
     # Validation: Ensure address is not too short
-    if len(message.text.strip()) < 10:
+    if len(message.text.strip()) < 3:
         await message.answer("⚠️ عذراً، العنوان قصير جداً. يرجى كتابة عنوان أوضح.", reply_markup=get_cancel_keyboard())
         return
 
