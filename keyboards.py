@@ -29,3 +29,12 @@ def get_governorates_keyboard():
         ],
         resize_keyboard=True
     )
+
+def get_branch_keyboard():
+    return types.ReplyKeyboardMarkup(
+        keyboard=[
+            [types.KeyboardButton(text="🔬 علمي"), types.KeyboardButton(text="📖 أدبي")],
+            [types.KeyboardButton(text="⚙️ مهني"), types.KeyboardButton(text="🕌 شرعي")]
+        ],
+        resize_keyboard=True
+    )

@@ -19,9 +19,23 @@ async def process_name(message: types.Message, state: FSMContext):
 
     # Save name and move to address state
     await state.update_data(name=message.text)
+    await state.set_state(RequestForm.waiting_for_branch)
+    await message.answer("🎓 ما هو فرعك الدراسي للمرحلة الثانوية؟", reply_markup=get_branch_keyboard())
+
+# 2. branch state
+@router.message(RequestForm.waiting_for_branch)
+async def process_branch(message: types.Message, state: FSMContext):
+    valid_branches = ["🔬 علمي", "📖 أدبي", "⚙️ مهني", "🕌 شرعي"]
+    
+    if message.text not in valid_branches:
+        await message.answer("⚠️ يرجى اختيار الفرع من الأزرار المتاحة فقط.", reply_markup=get_branch_keyboard())
+        return
+
+    await state.update_data(branch=message.text)
     await state.set_state(RequestForm.waiting_for_governorate)
     await message.answer("📍 الرجاء اختيار محافظتك من القائمة أدناه:", reply_markup=get_governorates_keyboard())
     
+# 3. governorate state
 @router.message(RequestForm.waiting_for_governorate)
 async def process_governorate(message: types.Message, state: FSMContext):
     # Validation: Ensure the user selected a valid Syrian governorate (Optional but recommended)
@@ -42,19 +56,35 @@ async def process_governorate(message: types.Message, state: FSMContext):
 @router.message(RequestForm.waiting_for_address)
 async def process_address(message: types.Message, state: FSMContext):
     # Validation: Ensure address is not too short
-    if len(message.text.strip()) < 3:
+    if len(message.text.strip()) < 10:
         await message.answer("⚠️ عذراً، العنوان قصير جداً. يرجى كتابة عنوان أوضح.", reply_markup=get_cancel_keyboard())
         return
 
     # Save address and move to content state
     await state.update_data(address=message.text)
     await state.set_state(RequestForm.waiting_for_content)
-    await message.answer("✉️ الرجاء كتابة محتوى رسالتك بالتفصيل:", reply_markup=get_cancel_keyboard())
+    data = await state.get_data()
+    if data.get("type") == "donor":
+        content_prompt = (
+            "✉️ <b>الرجاء كتابة تفاصيل التبرع بدقة:</b>\n\n"
+            "لنسهل وصول تبرعك، يرجى ذكر:\n"
+            "🔸 <b>المحتوى:</b> (كتب منهاج، نوط، أسئلة دورات...)\n"
+            "🔸 <b>الحالة:</b> (جديدة، مخططة، محلولة...)\n\n"
+            "📝 <i>مثال: מתبرع بكتب بكالوريا نسخة 2026 بحالة ممتازة، مع نوطة رياضيات للأستاذ كذا.</i>\n\n"
+        )
+    else:
+        content_prompt = (
+            "✉️ <b>الرجاء كتابة تفاصيل طلبك بدقة:</b>\n\n"
+            "لنسهل العثور على طلبك، يرجى ذكر:\n"
+            "🔸 <b>المطلوب:</b> (كتب محددة، نوطة لأستاذ معين، دورات...)\n\n"
+            "📝 <i>مثال: محتاج كتاب الفيزياء والكيمياء، أو نوطة للغة العربية.</i>"
+        )
+    await message.answer(content_prompt, parse_mode="HTML", reply_markup=get_cancel_keyboard())
 
 @router.message(RequestForm.waiting_for_content)
 async def process_content(message: types.Message, state: FSMContext):
     # Validation: Ensure content is not too short
-    if len(message.text.strip()) < 3:
+    if len(message.text.strip()) < 20:
         await message.answer("⚠️ عذراً، المحتوى قصير جداً. يرجى كتابة تفاصيل أكثر.", reply_markup=get_cancel_keyboard())
         return
 
@@ -71,6 +101,7 @@ async def process_content(message: types.Message, state: FSMContext):
         f"👤 <b>الاسم:</b> {data['name']}\n"
         f"📱 <b>اسم الحساب:</b> {data['telegram_name']}\n"
         f"🔗 <b>Username:</b> {data['username']}\n"
+        f"🎓 <b>الفرع:</b> {data['branch']}\n"
         f"📍 <b>العنوان:</b> {data['address']}\n"
         f"✉️ <b>المحتوى:</b>\n{message.text}"
     )
