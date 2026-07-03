@@ -116,8 +116,23 @@ async def process_content(message: types.Message, state: FSMContext):
     try:
         # Send message to the target topic
         await message.bot.send_message(chat_id=GROUP_ID, text=final_msg, message_thread_id=topic_id)
-        # Restore main keyboard upon success
-        await message.answer("✅ تم إرسال رسالتك بنجاح. شكراً لتواصلك معنا.", reply_markup=get_main_keyboard())
+        
+        if user_type == "donor":
+            final_asn = (
+                "✅ <b>تم إرسال رسالتك بنجاح!</b>\n\n"
+                "شكراً جزيلاً لمبادرتك الطيبة. 🤍\n"
+                "سيقوم الفريق بمراجعة التفاصيل، و<b>سنقوم بالتواصل معك مباشرةً فور تأمين الطالب المستحق</b> الذي يحتاج هذه الكتب.\n\n"
+                "⚠️ <i>ملاحظة: إذا تغير شيء أو قمت بالتبرع بالكتب خارج البوت، يرجى إبلاغنا عبر قسم (📧 الدعم) لنقوم بتحديث القوائم.</i>"
+            )
+        else: 
+            final_asn = (
+                "✅ <b>تم إرسال طلبك بنجاح!</b>\n\n"
+                "لقد استلمنا تفاصيل الكتب التي تحتاجها بنجاح.\n"
+                "فريقنا يعمل الآن على مطابقة طلبك، و<b>سنتواصل معك فوراً بمجرد توفر متبرع</b> يملك نفس طلبك.\n\n"
+                "⚠️ <i>ملاحظة: في حال قمت بتأمين الكتب من مكان آخر، يرجى التواصل معنا عبر قسم (📧 الدعم) لإلغاء الطلب وإتاحة الفرصة لطلاب آخرين.</i>"
+            )
+            
+        await message.answer(final_asn, parse_mode="HTML", reply_markup=get_main_keyboard())
         
     except TelegramForbiddenError:
         # User blocked the bot before we could reply, no need to notify admins
