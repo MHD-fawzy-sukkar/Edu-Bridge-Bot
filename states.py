@@ -1,8 +1,10 @@
 from aiogram.fsm.state import State, StatesGroup
 
 class RequestForm(StatesGroup):
+    waiting_for_level = State()
     waiting_for_name = State()
     waiting_for_branch = State()
+    waiting_for_custom_specialization = State()
     waiting_for_governorate = State()
     waiting_for_address = State()
     waiting_for_content = State()

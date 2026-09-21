@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, String, DateTime, ForeignKey, func
+from sqlalchemy import BigInteger, String, DateTime, ForeignKey, func, inspect, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 import datetime
@@ -26,6 +26,7 @@ class Request(Base):
     tg_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.tg_id'))
     name: Mapped[str] = mapped_column(String(100))
     type: Mapped[str] = mapped_column(String(20)) # donor/beneficiary
+    level: Mapped[str] = mapped_column(String(50), nullable=True, default="بكالوريا") # baccalaureate/university
     branch: Mapped[str] = mapped_column(String(50))
     governorate: Mapped[str] = mapped_column(String(50))
     address: Mapped[str] = mapped_column(String(200))
@@ -35,3 +36,11 @@ class Request(Base):
 async def async_main():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+        
+        def add_level_column_if_missing(sync_conn):
+            inspector = inspect(sync_conn)
+            columns = [c['name'] for c in inspector.get_columns('requests')]
+            if 'level' not in columns:
+                sync_conn.execute(text("ALTER TABLE requests ADD COLUMN level VARCHAR(50)"))
+                
+        await conn.run_sync(add_level_column_if_missing)

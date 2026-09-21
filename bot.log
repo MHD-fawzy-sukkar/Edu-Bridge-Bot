@@ -47,3 +47,139 @@
 2026-06-30 22:42:25,008 - INFO - Polling stopped
 2026-06-30 22:42:25,270 - INFO - \U0001f6d1 Bot session closed.
 2026-06-30 22:42:25,271 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:13:21,160 - INFO - \u2705 Starting bot initialization...
+2026-09-21 18:13:22,311 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-09-21 18:13:22,311 - INFO - Start polling
+2026-09-21 18:13:22,411 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:13:34,504 - INFO - Update id=62935784 is handled. Duration 985 ms by bot id=8251440358
+2026-09-21 18:13:37,264 - INFO - Update id=62935785 is handled. Duration 250 ms by bot id=8251440358
+2026-09-21 18:13:40,011 - INFO - Update id=62935786 is handled. Duration 171 ms by bot id=8251440358
+2026-09-21 18:13:45,963 - INFO - Update id=62935787 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:14:05,365 - INFO - Update id=62935788 is handled. Duration 546 ms by bot id=8251440358
+2026-09-21 18:14:09,803 - INFO - Update id=62935789 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:14:13,523 - INFO - Update id=62935790 is handled. Duration 234 ms by bot id=8251440358
+2026-09-21 18:14:17,794 - INFO - Update id=62935791 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:14:21,317 - INFO - Update id=62935792 is handled. Duration 343 ms by bot id=8251440358
+2026-09-21 18:14:33,553 - INFO - Update id=62935793 is handled. Duration 327 ms by bot id=8251440358
+2026-09-21 18:14:38,206 - INFO - Update id=62935794 is handled. Duration 140 ms by bot id=8251440358
+2026-09-21 18:14:46,262 - INFO - Update id=62935795 is handled. Duration 702 ms by bot id=8251440358
+2026-09-21 18:15:44,386 - INFO - Update id=62935796 is handled. Duration 531 ms by bot id=8251440358
+2026-09-21 18:15:46,012 - INFO - Update id=62935797 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:15:47,345 - INFO - Update id=62935798 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:15:50,255 - INFO - Update id=62935799 is handled. Duration 266 ms by bot id=8251440358
+2026-09-21 18:15:55,532 - INFO - Update id=62935800 is handled. Duration 297 ms by bot id=8251440358
+2026-09-21 18:28:58,263 - INFO - Polling stopped
+2026-09-21 18:28:58,516 - INFO - \U0001f6d1 Bot session closed.
+2026-09-21 18:28:58,516 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:29:01,661 - INFO - \u2705 Starting bot initialization...
+2026-09-21 18:29:02,825 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-09-21 18:29:02,825 - INFO - Start polling
+2026-09-21 18:29:02,971 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:29:06,581 - INFO - Update id=62935801 is handled. Duration 609 ms by bot id=8251440358
+2026-09-21 18:29:09,713 - INFO - Update id=62935802 is handled. Duration 203 ms by bot id=8251440358
+2026-09-21 18:29:11,552 - INFO - Update id=62935803 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:29:14,695 - INFO - Update id=62935804 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:30:19,462 - INFO - Polling stopped
+2026-09-21 18:30:19,728 - INFO - \U0001f6d1 Bot session closed.
+2026-09-21 18:30:19,728 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:30:22,478 - INFO - \u2705 Starting bot initialization...
+2026-09-21 18:30:23,665 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-09-21 18:30:23,665 - INFO - Start polling
+2026-09-21 18:30:23,773 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:30:28,011 - INFO - Update id=62935805 is handled. Duration 811 ms by bot id=8251440358
+2026-09-21 18:30:36,622 - INFO - Update id=62935806 is handled. Duration 469 ms by bot id=8251440358
+2026-09-21 18:30:40,247 - INFO - Update id=62935807 is handled. Duration 485 ms by bot id=8251440358
+2026-09-21 18:30:42,345 - INFO - Update id=62935808 is handled. Duration 140 ms by bot id=8251440358
+2026-09-21 18:30:44,163 - INFO - Update id=62935809 is handled. Duration 280 ms by bot id=8251440358
+2026-09-21 18:30:46,947 - INFO - Update id=62935810 is handled. Duration 265 ms by bot id=8251440358
+2026-09-21 18:30:50,837 - INFO - Update id=62935811 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:30:57,976 - INFO - Update id=62935812 is handled. Duration 563 ms by bot id=8251440358
+2026-09-21 18:31:00,161 - INFO - Update id=62935813 is handled. Duration 140 ms by bot id=8251440358
+2026-09-21 18:31:02,095 - INFO - Update id=62935814 is handled. Duration 265 ms by bot id=8251440358
+2026-09-21 18:31:05,668 - INFO - Update id=62935815 is handled. Duration 202 ms by bot id=8251440358
+2026-09-21 18:31:18,175 - INFO - Update id=62935816 is handled. Duration 218 ms by bot id=8251440358
+2026-09-21 18:31:19,958 - INFO - Update id=62935817 is handled. Duration 140 ms by bot id=8251440358
+2026-09-21 18:31:22,763 - INFO - Update id=62935818 is handled. Duration 171 ms by bot id=8251440358
+2026-09-21 18:31:26,350 - INFO - Update id=62935819 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:31:32,270 - INFO - Update id=62935820 is handled. Duration 452 ms by bot id=8251440358
+2026-09-21 18:32:01,294 - INFO - Update id=62935821 is handled. Duration 1093 ms by bot id=8251440358
+2026-09-21 18:32:02,716 - INFO - Update id=62935822 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:32:06,538 - INFO - Update id=62935823 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:32:08,568 - INFO - Update id=62935824 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:37:08,169 - INFO - Polling stopped
+2026-09-21 18:37:08,422 - INFO - \U0001f6d1 Bot session closed.
+2026-09-21 18:37:08,422 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:37:10,931 - INFO - \u2705 Starting bot initialization...
+2026-09-21 18:37:12,013 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-09-21 18:37:12,013 - INFO - Start polling
+2026-09-21 18:37:12,114 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:37:27,429 - INFO - Update id=62935825 is handled. Duration 702 ms by bot id=8251440358
+2026-09-21 18:37:29,572 - INFO - Update id=62935826 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:37:31,389 - INFO - Update id=62935827 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:37:35,098 - INFO - Update id=62935828 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:37:42,375 - INFO - Update id=62935829 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:38:06,401 - INFO - Update id=62935830 is handled. Duration 530 ms by bot id=8251440358
+2026-09-21 18:38:08,280 - INFO - Update id=62935831 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:38:09,847 - INFO - Update id=62935832 is handled. Duration 235 ms by bot id=8251440358
+2026-09-21 18:38:13,111 - INFO - Update id=62935833 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:38:19,933 - INFO - Update id=62935834 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:38:23,425 - INFO - Update id=62935835 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:38:28,456 - INFO - Update id=62935836 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:38:34,008 - INFO - Update id=62935837 is handled. Duration 172 ms by bot id=8251440358
+2026-09-21 18:38:35,199 - INFO - Update id=62935838 is handled. Duration 202 ms by bot id=8251440358
+2026-09-21 18:38:37,303 - INFO - Update id=62935839 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:38:39,528 - INFO - Update id=62935840 is handled. Duration 265 ms by bot id=8251440358
+2026-09-21 18:38:40,801 - INFO - Update id=62935841 is handled. Duration 218 ms by bot id=8251440358
+2026-09-21 18:38:43,169 - INFO - Update id=62935842 is handled. Duration 171 ms by bot id=8251440358
+2026-09-21 18:44:54,220 - INFO - Polling stopped
+2026-09-21 18:44:54,481 - INFO - \U0001f6d1 Bot session closed.
+2026-09-21 18:44:54,482 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:44:57,856 - INFO - \u2705 Starting bot initialization...
+2026-09-21 18:45:01,489 - INFO - \u2705 Bot is polling and ready to receive messages!
+2026-09-21 18:45:01,489 - INFO - Start polling
+2026-09-21 18:45:01,621 - INFO - Run polling for bot @edu_bridge_bot id=8251440358 - 'EduBridge'
+2026-09-21 18:45:14,218 - INFO - Update id=62935843 is handled. Duration 860 ms by bot id=8251440358
+2026-09-21 18:45:17,076 - INFO - Update id=62935844 is handled. Duration 219 ms by bot id=8251440358
+2026-09-21 18:45:19,351 - INFO - Update id=62935845 is handled. Duration 203 ms by bot id=8251440358
+2026-09-21 18:45:21,495 - INFO - Update id=62935846 is handled. Duration 281 ms by bot id=8251440358
+2026-09-21 18:45:23,269 - INFO - Update id=62935847 is handled. Duration 139 ms by bot id=8251440358
+2026-09-21 18:45:24,907 - INFO - Update id=62935848 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:45:27,853 - INFO - Update id=62935849 is handled. Duration 218 ms by bot id=8251440358
+2026-09-21 18:45:29,765 - INFO - Update id=62935850 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:45:31,196 - INFO - Update id=62935851 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:45:32,431 - INFO - Update id=62935852 is handled. Duration 186 ms by bot id=8251440358
+2026-09-21 18:45:34,296 - INFO - Update id=62935853 is handled. Duration 140 ms by bot id=8251440358
+2026-09-21 18:45:37,095 - INFO - Update id=62935854 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:45:38,747 - INFO - Update id=62935855 is handled. Duration 203 ms by bot id=8251440358
+2026-09-21 18:45:41,955 - INFO - Update id=62935856 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:45:48,097 - INFO - Update id=62935857 is handled. Duration 485 ms by bot id=8251440358
+2026-09-21 18:45:51,234 - INFO - Update id=62935858 is handled. Duration 280 ms by bot id=8251440358
+2026-09-21 18:45:56,673 - INFO - Update id=62935859 is handled. Duration 468 ms by bot id=8251440358
+2026-09-21 18:47:03,050 - INFO - Update id=62935860 is handled. Duration 952 ms by bot id=8251440358
+2026-09-21 18:47:05,391 - INFO - Update id=62935861 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:47:07,678 - INFO - Update id=62935862 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:47:11,049 - INFO - Update id=62935863 is handled. Duration 156 ms by bot id=8251440358
+2026-09-21 18:47:15,559 - INFO - Update id=62935864 is handled. Duration 250 ms by bot id=8251440358
+2026-09-21 18:47:17,201 - INFO - Update id=62935865 is handled. Duration 188 ms by bot id=8251440358
+2026-09-21 18:47:21,176 - INFO - Update id=62935866 is handled. Duration 327 ms by bot id=8251440358
+2026-09-21 18:50:23,226 - INFO - Update id=62935867 is handled. Duration 921 ms by bot id=8251440358
+2026-09-21 18:50:25,067 - INFO - Update id=62935868 is handled. Duration 155 ms by bot id=8251440358
+2026-09-21 18:50:26,615 - INFO - Update id=62935869 is handled. Duration 171 ms by bot id=8251440358
+2026-09-21 18:50:28,394 - INFO - Update id=62935870 is handled. Duration 311 ms by bot id=8251440358
+2026-09-21 18:50:31,152 - INFO - Update id=62935871 is handled. Duration 250 ms by bot id=8251440358
+2026-09-21 18:50:33,537 - INFO - Update id=62935872 is handled. Duration 219 ms by bot id=8251440358
+2026-09-21 18:50:37,252 - INFO - Update id=62935873 is handled. Duration 155 ms by bot id=8251440358
+2026-09-21 18:51:42,948 - INFO - Update id=62935874 is handled. Duration 1344 ms by bot id=8251440358
+2026-09-21 18:51:55,673 - INFO - Update id=62935875 is handled. Duration 203 ms by bot id=8251440358
+2026-09-21 18:51:57,911 - INFO - Update id=62935876 is handled. Duration 312 ms by bot id=8251440358
+2026-09-21 18:52:04,430 - INFO - Update id=62935877 is handled. Duration 187 ms by bot id=8251440358
+2026-09-21 18:52:09,653 - INFO - Update id=62935878 is handled. Duration 187 ms by bot id=8251440358
+2026-09-21 18:52:13,835 - INFO - Update id=62935879 is handled. Duration 313 ms by bot id=8251440358
+2026-09-21 18:52:38,011 - INFO - Update id=62935880 is handled. Duration 1280 ms by bot id=8251440358
+2026-09-21 18:52:39,628 - INFO - Update id=62935881 is handled. Duration 312 ms by bot id=8251440358
+2026-09-21 18:52:42,233 - INFO - Update id=62935882 is handled. Duration 421 ms by bot id=8251440358
+2026-09-21 18:52:52,260 - INFO - Update id=62935883 is handled. Duration 358 ms by bot id=8251440358
+2026-09-21 18:52:54,695 - INFO - Update id=62935884 is handled. Duration 234 ms by bot id=8251440358
+2026-09-21 18:53:05,775 - INFO - Polling stopped
+2026-09-21 18:53:06,036 - INFO - \U0001f6d1 Bot session closed.
+2026-09-21 18:53:06,036 - INFO - Polling stopped for bot @edu_bridge_bot id=8251440358 - 'EduBridge'

@@ -3,12 +3,13 @@ from aiogram import Router, F, types
 from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from database.requests import add_user
-from keyboards import get_main_keyboard, get_cancel_keyboard
+from keyboards import get_main_keyboard, get_cancel_keyboard, get_level_keyboard
 from states import RequestForm, SupportForm
 from services.banned import banned_users
 from config import GROUP_ID, STOP_TOPIC
 
 router = Router()
+
 @router.message(CommandStart(), StateFilter("*"))
 async def cmd_start(message: types.Message, state: FSMContext):
     await add_user(message.from_user.id, message.from_user.full_name, message.from_user.username)
@@ -64,9 +65,9 @@ async def choose_request_type(message: types.Message, state: FSMContext):
     user_type = "donor" if "متبرع" in message.text else "beneficiary"
     await state.update_data(type=user_type, username=f"@{username}", telegram_name=message.from_user.full_name)
     
-    # Move to the first step of the form
-    await state.set_state(RequestForm.waiting_for_name)
-    await message.answer("📝 ما اسمك الكامل؟", reply_markup=get_cancel_keyboard())
+    # Move to the level selection state
+    await state.set_state(RequestForm.waiting_for_level)
+    await message.answer("🎓 يرجى تحديد المرحلة الدراسية:", reply_markup=get_level_keyboard())
 
 # Handle Support Option
 @router.message(F.text == "📧 الدعم")

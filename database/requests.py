@@ -23,6 +23,7 @@ async def add_request_data(tg_id, data, username, content):
             tg_id=tg_id, 
             name=data['name'], 
             type=data['type'],
+            level=data.get('level_label', data.get('level', 'بكالوريا')),
             branch=data['branch'], 
             governorate=data['governorate'],
             address=data['address'], 
